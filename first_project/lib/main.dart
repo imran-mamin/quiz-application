@@ -76,6 +76,32 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
+class DefaultBottomNavigationBar extends StatelessWidget {
+  final List<Widget> children;
+  
+  DefaultBottomNavigationBar({required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Constants.appBarBackgroundColor,
+      elevation: 8,
+      child: SizedBox(
+        height: kBottomNavigationBarHeight,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: this.children,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class HomeScreen extends StatelessWidget {
   final collectionController = Get.find<CollectionController>();
 
@@ -181,31 +207,18 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Material(
-        color: Constants.appBarBackgroundColor,
-        elevation: 8,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(child: 
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () => Get.toNamed("/collection"),
-                      child: const Text("Add New Collection"),
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: DefaultBottomNavigationBar(
+        children: [
+          Expanded(child: 
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
               ),
+              onPressed: () => Get.toNamed("/collection"),
+              child: const Text("Add New Collection"),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -261,43 +274,30 @@ class CollectionScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Material(
-        color: Constants.appBarBackgroundColor,
-        elevation: 8,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 800),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () => Get.back(),
-                      child: Icon(Icons.arrow_back_rounded),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: _submit,
-                      child: Text("Save"),
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: DefaultBottomNavigationBar(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
               ),
+              onPressed: () => Get.back(),
+              child: Icon(Icons.arrow_back_rounded),
             ),
           ),
-        ),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+              onPressed: _submit,
+              child: Text("Save"),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -405,43 +405,30 @@ class EditCollectionScreen extends StatelessWidget {
           tooltip: 'Camera',
           child: Icon(Icons.camera_alt),
         ),
-        bottomNavigationBar: Material(
-          color: Constants.appBarBackgroundColor,
-          elevation: 8,
-          child: SizedBox(
-            height: kBottomNavigationBarHeight,
-            child: Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 800),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                        ),
-                        onPressed: () => Get.back(),
-                        child: Icon(Icons.arrow_back_rounded),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                        ),
-                        onPressed: () => Get.toNamed("/editcollection/qa/${index}"),
-                        child: Text("New Flashcard"),
-                      ),
-                    ),
-                  ],
+        bottomNavigationBar: DefaultBottomNavigationBar(
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
                 ),
+                onPressed: () => Get.back(),
+                child: Icon(Icons.arrow_back_rounded),
               ),
             ),
-          ),
+            SizedBox(
+              width: 16,
+            ),
+            Expanded(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
+                onPressed: () => Get.toNamed("/editcollection/qa/${index}"),
+                child: Text("New Flashcard"),
+              ),
+            ),
+          ],
         ),
       );
     });
@@ -524,43 +511,30 @@ class QuestionAndAnswerScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Material(
-        color: Constants.appBarBackgroundColor,
-        elevation: 8,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 800),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () => Get.back(),
-                      child: Icon(Icons.arrow_back_rounded),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: _submit,
-                      child: Text("Save"),
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: DefaultBottomNavigationBar(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
               ),
+              onPressed: () => Get.back(),
+              child: Icon(Icons.arrow_back_rounded),
             ),
           ),
-        ),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+              onPressed: _submit,
+              child: Text("Save"),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -674,43 +648,30 @@ class EditQuestionAndAnswerScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Material(
-        color: Constants.appBarBackgroundColor,
-        elevation: 8,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 800),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () => Get.back(),
-                      child: Icon(Icons.arrow_back_rounded),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () => _submit(colIndex, qaIndex),
-                      child: Text("Save"),
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: DefaultBottomNavigationBar(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
               ),
+              onPressed: () => Get.back(),
+              child: Icon(Icons.arrow_back_rounded),
             ),
           ),
-        ),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+              onPressed: () => _submit(colIndex, qaIndex),
+              child: Text("Save"),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -799,31 +760,18 @@ class LearnScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Material(
-        color: Constants.appBarBackgroundColor,
-        elevation: 8,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 800),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () => Get.back(),
-                      child: Icon(Icons.home),
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: DefaultBottomNavigationBar(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
               ),
+              onPressed: () => Get.back(),
+              child: Icon(Icons.home),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -990,31 +938,18 @@ class QuizScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Material(
-        color: Constants.appBarBackgroundColor,
-        elevation: 8,
-        child: SizedBox(
-          height: kBottomNavigationBarHeight,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 800),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                      ),
-                      onPressed: () => Get.offNamed("/"),
-                      child: Icon(Icons.home),
-                    ),
-                  ),
-                ],
+      bottomNavigationBar: DefaultBottomNavigationBar(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
               ),
+              onPressed: () => Get.offNamed("/"),
+              child: Icon(Icons.home),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
