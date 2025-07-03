@@ -1,20 +1,12 @@
-import 'dart:async';
-import 'dart:io';
-import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:camera/camera.dart';
 
 import 'package:first_project/controllers/collection_controller.dart';
 import 'package:first_project/models/flashcard.dart';
 import 'package:first_project/main.dart';
 import 'package:first_project/constants/theme.dart';
-
 
 class QuestionAndAnswerScreen extends StatelessWidget {
   static final _formKey = GlobalKey<FormBuilderState>();
