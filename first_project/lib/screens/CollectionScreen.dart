@@ -13,9 +13,22 @@ class CollectionScreen extends StatelessWidget {
   static final _formKey = GlobalKey<FormBuilderState>();
   final collectionController = Get.find<CollectionController>();
 
-  void _submit() {
+  void _submit(BuildContext context) {
     if (_formKey.currentState!.saveAndValidate()) {
       final name = _formKey.currentState!.value['name'];
+      final bool existsAlready = collectionController.collections.any((c) => c.name == name);
+      
+      if (existsAlready) {
+        const snackBar = SnackBar(
+          content: Center(
+            child: const Text("There is already a collection with the specified name"),
+          ),
+        );
+        
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        return;
+      }
+      
       final collection = Collection(name, []);
       collectionController.add(collection);
       
@@ -78,7 +91,7 @@ class CollectionScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
-              onPressed: _submit,
+              onPressed: () => _submit(context),
               child: Text("Save"),
             ),
           ),
