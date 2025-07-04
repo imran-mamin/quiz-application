@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:async';
+import 'dart:io';
 
 import 'package:first_project/models/collection.dart';
 import 'package:first_project/models/flashcard.dart';
@@ -50,6 +53,21 @@ class EditCollectionScreen extends StatelessWidget {
     final firstCamera = cameras.first;
 
     Get.to(() => TakePictureScreen(camera: firstCamera));
+  }
+
+  void _choosefile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'png'],
+      );
+
+      if (result != null) {
+        File file = File(result.files.single.path!);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -121,7 +139,7 @@ class EditCollectionScreen extends StatelessWidget {
           children: [
             FloatingActionButton(
               heroTag: "file",
-              onPressed: () {},
+              onPressed: _choosefile,
               tooltip: 'Choose file',
               child: Icon(Icons.file_open_outlined),
             ),
