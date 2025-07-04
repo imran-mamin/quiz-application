@@ -115,10 +115,26 @@ class EditCollectionScreen extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _takepicture,
-          tooltip: 'Camera',
-          child: Icon(Icons.camera_alt),
+        floatingActionButton: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              heroTag: "file",
+              onPressed: () {},
+              tooltip: 'Choose file',
+              child: Icon(Icons.file_open_outlined),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8),
+            ),
+            FloatingActionButton(
+              heroTag: "camera",
+              onPressed: _takepicture,
+              tooltip: 'Camera',
+              child: Icon(Icons.camera_alt),
+            ),
+          ],
         ),
         bottomNavigationBar: DefaultBottomNavigationBar(
           children: [
