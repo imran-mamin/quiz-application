@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:get/get.dart';
 import 'dart:typed_data';
 
 import 'package:first_project/screens/DisplayPictureScreen.dart';
@@ -77,15 +78,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             Uint8List bytes = await image.readAsBytes();
             // If the picture was taken, display it on a new screen.
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(
-                  // Pass the automatically generated path to
-                  // the DisplayPictureScreen widget.
-                  imageBytes: bytes,
-                ),
-              ),
-            );
+            await Get.to(() => DisplayPictureScreen(imageBytes: bytes));
+
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);
