@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              collectionController.remove(collection);
+              collectionController.remove(collection.name);
               Get.back();
             },
             child: Text('Delete', style: TextStyle(color: Colors.red)),

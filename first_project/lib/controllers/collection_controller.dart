@@ -28,8 +28,8 @@ class CollectionController {
     _save();
   }
 
-  void remove(Collection collection) {
-    collections.remove(collection);
+  void remove(String collectionName) {
+    collections.removeWhere((c) => c.name == collectionName);
     collections.refresh();
     _save();
   }
