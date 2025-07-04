@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:first_project/models/collection.dart';
 import 'package:first_project/models/flashcard.dart';
@@ -64,6 +66,17 @@ class EditCollectionScreen extends StatelessWidget {
 
       if (result != null) {
         File file = File(result.files.single.path!);
+        final String address = 'http://127.0.0.1:8000/image-to-text'; // TODO: Set a proper address.
+        final headers = {'Content-Type': 'application/json; charset=UTF-8'};
+        final content = {'key': 'value'};
+
+        final response = await http.post(
+          Uri.parse(address),
+          headers: headers,
+          body: jsonEncode(content),
+        );
+
+        print(response);
       }
     } catch (e) {
       print(e);
