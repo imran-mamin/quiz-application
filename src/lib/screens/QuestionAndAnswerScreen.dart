@@ -3,10 +3,10 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get/get.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-import 'package:first_project/controllers/collection_controller.dart';
-import 'package:first_project/models/flashcard.dart';
-import 'package:first_project/main.dart';
-import 'package:first_project/constants/theme.dart';
+import 'package:src/controllers/collection_controller.dart';
+import 'package:src/models/flashcard.dart';
+import 'package:src/main.dart';
+import 'package:src/constants/theme.dart';
 
 class QuestionAndAnswerScreen extends StatelessWidget {
   static final _formKey = GlobalKey<FormBuilderState>();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:first_project/constants/theme.dart';
-import 'package:first_project/main.dart';
+import 'package:src/constants/theme.dart';
+import 'package:src/main.dart';
 
 String resultText(int score, int total) {
   double ratio = score / total;

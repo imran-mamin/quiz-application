@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
-import 'package:first_project/models/collection.dart';
+import 'package:src/models/collection.dart';
 
 class CollectionController {
   final storage = Hive.box("storage");

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:first_project/models/flashcard.dart';
+import 'package:src/models/flashcard.dart';
 
 class Collection {
   String name;

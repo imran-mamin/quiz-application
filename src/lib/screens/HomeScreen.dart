@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:first_project/models/collection.dart';
-import 'package:first_project/controllers/collection_controller.dart';
-import 'package:first_project/constants/theme.dart';
-import 'package:first_project/main.dart';
+import 'package:src/models/collection.dart';
+import 'package:src/controllers/collection_controller.dart';
+import 'package:src/constants/theme.dart';
+import 'package:src/main.dart';
 
 class HomeScreen extends StatelessWidget {
   final collectionController = Get.find<CollectionController>();
