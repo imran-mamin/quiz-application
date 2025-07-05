@@ -62,21 +62,33 @@ class EditCollectionScreen extends StatelessWidget {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'png'],
+        withData: true,
       );
 
       if (result != null) {
-        File file = File(result.files.single.path!);
-        final String address = 'http://127.0.0.1:8000/image-to-text'; // TODO: Set a proper address.
-        final headers = {'Content-Type': 'application/json; charset=UTF-8'};
-        final content = {'key': 'value'};
+        final fileBytes = result.files.single.bytes;
+        final fileName = result.files.single.name;
+
+        if (fileBytes == null) {
+          print("Could not read file bytes.");
+          return;
+        }
+
+        final String address = 'http://127.0.0.1:8000/image-to-text';
+        final headers = {'Content-Type': 'application/json'};
+        final body = jsonEncode({
+          'filename': fileName,
+          'filedata': base64Encode(fileBytes),
+        });
 
         final response = await http.post(
           Uri.parse(address),
           headers: headers,
-          body: jsonEncode(content),
+          body: body,
         );
 
-        print(response);
+        print('Response status: ${response.statusCode}');
+        print('Result: ${response.body}');
       }
     } catch (e) {
       print(e);
