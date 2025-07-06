@@ -4,6 +4,8 @@ from PIL import Image
 import pytesseract
 import numpy as np
 import os
+from io import BytesIO
+import base64
 
 app = FastAPI()
 
@@ -19,9 +21,13 @@ app.add_middleware(
 @app.post("/image-to-text")
 async def text_from_image_ocr(request: Request):
     data = await request.json()
-    print(data)
-    filename = os.path.join(os.path.dirname(__file__), 'image_01.png')
-    img1 = np.array(Image.open(filename))
-    text = pytesseract.image_to_string(img1)
+    
+    # Decode filedata.
+    image_data = base64.b64decode(data["filedata"])
+    image = Image.open(BytesIO(image_data))
+
+    img_arr = np.array(image)
+    text = pytesseract.image_to_string(img_arr)
     print(text)
+    
     return text
