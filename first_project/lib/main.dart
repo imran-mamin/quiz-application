@@ -8,6 +8,7 @@ import 'package:camera/camera.dart';
 import 'package:first_project/constants/breakpoints.dart';
 import 'package:first_project/constants/theme.dart';
 import 'package:first_project/controllers/collection_controller.dart';
+import 'package:first_project/controllers/displaypicture_controller.dart';
 import 'package:first_project/screens/CollectionScreen.dart';
 import 'package:first_project/screens/DisplayPictureScreen.dart';
 import 'package:first_project/screens/EditCollectionScreen.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox("storage");
   Get.lazyPut<CollectionController>(() => CollectionController());
+  Get.lazyPut<DisplayPictureController>(() => DisplayPictureController());
   runApp(
     GetMaterialApp(
       initialRoute: "/",

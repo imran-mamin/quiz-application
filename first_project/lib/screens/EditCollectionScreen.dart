@@ -9,14 +9,17 @@ import 'dart:convert';
 import 'package:first_project/models/collection.dart';
 import 'package:first_project/models/flashcard.dart';
 import 'package:first_project/controllers/collection_controller.dart';
+import 'package:first_project/controllers/displaypicture_controller.dart';
 import 'package:first_project/main.dart';
 import 'package:first_project/screens/TakePictureScreen.dart';
 import 'package:first_project/constants/breakpoints.dart';
 import 'package:first_project/constants/theme.dart';
+import 'package:first_project/screens/DisplayPictureScreen.dart';
 
 class EditCollectionScreen extends StatelessWidget {
   final collectionController = Get.find<CollectionController>();
-  
+  final displaypictureController = Get.find<DisplayPictureController>();
+
   void _deleteFlashcard(BuildContext context, Collection collection, QuestionAndAnswer flashcard) {
     showDialog(
       context: context,
@@ -71,6 +74,14 @@ class EditCollectionScreen extends StatelessWidget {
 
         if (fileBytes == null) {
           print("Could not read file bytes.");
+          return;
+        }
+
+        // Show image preview.
+        await Get.to(() => DisplayPictureScreen(imageBytes: fileBytes));
+        
+        if (!displaypictureController.send.value) {
+          _choosefile();
           return;
         }
 
