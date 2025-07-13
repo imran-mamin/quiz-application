@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:camera/camera.dart';
 
 import 'package:first_project/constants/breakpoints.dart';
 import 'package:first_project/constants/theme.dart';
@@ -18,14 +17,8 @@ import 'package:first_project/screens/LearnScreen.dart';
 import 'package:first_project/screens/QuestionAndAnswerScreen.dart';
 import 'package:first_project/screens/QuizScreen.dart';
 import 'package:first_project/screens/ResultScreen.dart';
-import 'package:first_project/screens/TakePictureScreen.dart';
-
-late List<CameraDescription> cameras;
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  cameras = await availableCameras();
-  
   await Hive.initFlutter();
   await Hive.openBox("storage");
   Get.lazyPut<CollectionController>(() => CollectionController());

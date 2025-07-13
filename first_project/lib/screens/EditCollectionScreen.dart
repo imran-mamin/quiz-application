@@ -11,7 +11,6 @@ import 'package:first_project/models/flashcard.dart';
 import 'package:first_project/controllers/collection_controller.dart';
 import 'package:first_project/controllers/displaypicture_controller.dart';
 import 'package:first_project/main.dart';
-import 'package:first_project/screens/TakePictureScreen.dart';
 import 'package:first_project/constants/breakpoints.dart';
 import 'package:first_project/constants/theme.dart';
 import 'package:first_project/screens/DisplayPictureScreen.dart';
@@ -47,17 +46,6 @@ class EditCollectionScreen extends StatelessWidget {
     final int colIndex = collectionController.collections.indexOf(collection);
     final int qaIndex = collection.flashcards.indexOf(flashcard);
     Get.toNamed("/editcollection/qa/$colIndex/$qaIndex");
-  }
-
-  void _takepicture() {
-    if (cameras.isEmpty) {
-      print("No cameras found error");
-      return;
-    }
-
-    final firstCamera = cameras.first;
-
-    Get.to(() => TakePictureScreen(camera: firstCamera));
   }
 
   void _choosefile() async {
@@ -181,12 +169,6 @@ class EditCollectionScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(8),
-            ),
-            FloatingActionButton(
-              heroTag: "camera",
-              onPressed: _takepicture,
-              tooltip: 'Camera',
-              child: Icon(Icons.camera_alt),
             ),
           ],
         ),
