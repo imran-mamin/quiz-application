@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:hive_ce/hive.dart';
 
 import 'package:src/models/collection.dart';
 

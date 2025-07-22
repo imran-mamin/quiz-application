@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:camera/camera.dart';
 
 import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
@@ -17,10 +15,14 @@ import 'package:src/screens/QuestionAndAnswerScreen.dart';
 import 'package:src/screens/QuizScreen.dart';
 import 'package:src/screens/ResultScreen.dart';
 
-Future<void> main() async {
+Future<void> initAppForMain() async {
   await Hive.initFlutter();
   await Hive.openBox("storage");
   Get.lazyPut<CollectionController>(() => CollectionController());
+}
+
+Future<void> main() async {
+  await initAppForMain();
   runApp(
     GetMaterialApp(
       initialRoute: "/",
