@@ -16,28 +16,28 @@ class CollectionController {
     collections.value = storage.get('collections').map( (collection) => Collection.fromJson(collection) ).toList();
   }
 
-  void _save() {
-    storage.put(
+  Future<void> _save() async {
+    await storage.put(
       'collections',
       collections.map( (collection) => collection.toJson() ).toList(),
     );
   }
 
-  void add(Collection collection) {
+  Future<void> add(Collection collection) async {
     collections.add(collection);
-    _save();
+    await _save();
   }
 
-  void remove(String collectionName) {
+  Future<void> remove(String collectionName) async {
     collections.removeWhere((c) => c.name == collectionName);
     collections.refresh();
-    _save();
+    await _save();
   }
 
-  void updateCollection(int index, Collection updatedCollection) {
+  Future<void> updateCollection(int index, Collection updatedCollection) async {
     collections[index] = updatedCollection;
     collections.refresh();
-    _save();
+    await _save();
   }
 
   int get size => collections.length;
