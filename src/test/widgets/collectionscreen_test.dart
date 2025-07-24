@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 
 import 'package:src/screens/CollectionScreen.dart';
 import 'package:src/controllers/collection_controller.dart';
-import 'package:src/models/collection.dart';
 import 'package:src/main.dart';
 
 Future<void> initControllerAndHive() async {
