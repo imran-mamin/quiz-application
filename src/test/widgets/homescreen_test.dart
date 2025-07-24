@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:src/screens/HomeScreen.dart';
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/models/collection.dart';
+import 'package:src/main.dart';
 
 Future<void> initControllerAndHive() async {
   await setUpTestHive();
@@ -102,5 +103,18 @@ void main() {
 
     // Remove collection from collectionController.
     collectionController.collections.remove(emptyCollection);
+  });
+
+  testWidgets('BottomNavigationBar has one button with text "Add New Collection"', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: HomeScreen(),
+      ),
+    );
+
+    final bottomNavBar = find.byType(DefaultBottomNavigationBar);
+    final buttonText = find.descendant(of: bottomNavBar, matching: find.text("Add New Collection"));
+
+    expect(buttonText, findsOne);
   });
 }
