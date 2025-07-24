@@ -5,7 +5,6 @@ import 'package:src/models/collection.dart';
 import 'package:src/models/flashcard.dart';
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/main.dart';
-import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
 
 class EditCollectionScreen extends StatelessWidget {

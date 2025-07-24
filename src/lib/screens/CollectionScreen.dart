@@ -6,7 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/models/collection.dart';
 import 'package:src/main.dart';
-import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
 
 class CollectionScreen extends StatelessWidget {
