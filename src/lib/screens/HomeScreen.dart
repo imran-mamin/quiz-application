@@ -111,6 +111,10 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => Get.toNamed('/collection'),
+      ),
       bottomNavigationBar: DefaultBottomNavigationBar(
         children: [
           Expanded(child: 
