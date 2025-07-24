@@ -78,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white,
                           child: ListTile(
                             title: Text("${collection.name}"),
-                            subtitle: Text("Size: ${collection.flashcards.length} flashcards"),
+                            subtitle: Text("Size: ${collection.flashcards.length} flashcard${collection.flashcards.length == 1 ? '' : 's'}"),
                             trailing: Wrap(
                               spacing: 8,
                               children: [
