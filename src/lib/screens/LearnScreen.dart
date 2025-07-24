@@ -30,13 +30,12 @@ class LearnScreen extends StatelessWidget {
       );
     }
 
-   
     final Collection currentCollection = collectionController.collections[index];
     final List<QuestionAndAnswer> clonedFlashcards = currentCollection.shuffledFlashcards;
 
     return Scaffold(
       appBar: DefaultAppBar(text: "Collection: ${currentCollection.name}"),
-      backgroundColor: const Color.fromARGB(255, 110, 153, 222),
+      backgroundColor: Constants.canvasBackgroundColor,
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
