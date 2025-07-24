@@ -56,7 +56,7 @@ class QuestionAndAnswerScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center, // center vertically
                   crossAxisAlignment: CrossAxisAlignment.center, // center horizontally
                   children: [
-                    Text("Question:", style: TextStyle(fontSize: setFontSize(context))),
+                    Text("Question:", style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context))),
                     FormBuilderTextField(
                         name: 'question',
                         decoration: const InputDecoration(
@@ -67,7 +67,7 @@ class QuestionAndAnswerScreen extends StatelessWidget {
                         validator: FormBuilderValidators.required(),
                       ),
                       SizedBox(height: 16),
-                      Text("Answer:", style: TextStyle(fontSize: setFontSize(context))),
+                      Text("Answer:", style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context))),
                       FormBuilderTextField(
                         name: 'answer',
                         decoration: const InputDecoration(

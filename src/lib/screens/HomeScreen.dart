@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 16.0),
                   child: Obx(
                     () => collectionController.size == 0 ?
-                      Center(child: Text('No collections', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: setFontSize(context)))) :
+                      Center(child: Text('No collections', style: TextStyle(color: Constants.textColorOnCanvas, fontWeight: FontWeight.bold, fontSize: setFontSize(context)))) :
                       Column(
                         children: collectionController.collections.map( (collection) => Card(
                           color: Colors.white,

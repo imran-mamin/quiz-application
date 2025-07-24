@@ -53,7 +53,7 @@ class CollectionScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center, // center vertically
                   crossAxisAlignment: CrossAxisAlignment.center, // center horizontally
                   children: [
-                    Text("Collection Name:", style: TextStyle(fontSize: setFontSize(context))),
+                    Text("Collection Name:", style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context))),
                     FormBuilderTextField(
                       name: 'name',
                       decoration: InputDecoration(

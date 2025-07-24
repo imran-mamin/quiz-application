@@ -54,7 +54,7 @@ class LearnScreen extends StatelessWidget {
                   SizedBox(height: 16),
                   Text(
                     "Flashcard ${index + 1} of ${currentCollection.shuffledFlashcards.length}",
-                    style: TextStyle(fontSize: setFontSize(context), color: Colors.white),
+                    style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                   ),
                   FlashCard(
                     width: MediaQuery.of(context).size.width * 0.85,

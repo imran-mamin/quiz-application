@@ -82,13 +82,13 @@ class ResultScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: setFontSize(context),
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Constants.textColorOnCanvas,
                     ),
                   ),
                   SizedBox(height: 16),
                   Text(
                     "You scored",
-                    style: TextStyle(fontSize: setFontSize(context), color: Colors.white70),
+                    style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -96,7 +96,7 @@ class ResultScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: setFontSize(context),
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Constants.textColorOnCanvas,
                     ),
                   ),
                   SizedBox(height: 32),

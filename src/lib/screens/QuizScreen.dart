@@ -106,7 +106,7 @@ class QuizScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 Text(
                   "Flashcard ${qaIndex + 1} of ${currentCollection.shuffledFlashcards.length}",
-                  style: TextStyle(fontSize: setFontSize(context), color: Colors.white),
+                  style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                 ),
                 SizedBox(height: 24),
                 Expanded(
