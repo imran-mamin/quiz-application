@@ -68,5 +68,39 @@ void main() {
 
     final subTitleText = find.descendant(of: listTile, matching: find.text("Size: ${emptyCollection.flashcards.length} flashcards"));
     expect(subTitleText, findsOne);
+  
+    // Remove collection from collectionController.
+    collectionController.collections.remove(emptyCollection);
+  });
+
+  testWidgets('A single collection has four iconButtons in HomeScreen', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: HomeScreen(),
+      ),
+    );
+
+    final collectionController = Get.find<CollectionController>();
+
+    const collectionName = "Empty";
+    final emptyCollection = Collection(collectionName, []); // Collection(String name, List<QuestionAndAnswer> fc)
+    collectionController.collections.add(emptyCollection);
+
+    // Rebuild the widget after adding a new collection.
+    await tester.pumpAndSettle();
+
+    final listTile = find.byType(ListTile);
+    final schoolIcon = find.descendant(of: listTile, matching: find.byIcon(Icons.school));
+    final menuBookIcon = find.descendant(of: listTile, matching: find.byIcon(Icons.menu_book));
+    final editIcon = find.descendant(of: listTile, matching: find.byIcon(Icons.edit));
+    final deleteIcon = find.descendant(of: listTile, matching: find.byIcon(Icons.delete));
+
+    expect(schoolIcon, findsOne);
+    expect(menuBookIcon, findsOne);
+    expect(editIcon, findsOne);
+    expect(deleteIcon, findsOne);
+
+    // Remove collection from collectionController.
+    collectionController.collections.remove(emptyCollection);
   });
 }
