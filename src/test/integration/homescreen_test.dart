@@ -57,7 +57,7 @@ void main() {
 
     const collectionName = "Empty";
     final emptyCollection = Collection(collectionName, []); // Collection(String name, List<QuestionAndAnswer> fc)
-    await collectionController.add(emptyCollection);
+    collectionController.collections.add(emptyCollection);
 
     // Rebuild the widget after adding a new collection.
     await tester.pumpAndSettle();
