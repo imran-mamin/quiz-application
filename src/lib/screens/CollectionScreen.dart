@@ -9,27 +9,28 @@ import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
 class CollectionScreen extends StatelessWidget {
+
+  CollectionScreen({super.key});
+
   static final _formKey = GlobalKey<FormBuilderState>();
   final collectionController = Get.find<CollectionController>();
 
-  void _submit(BuildContext context) {
+  void _submit(BuildContext context) async {
     if (_formKey.currentState!.saveAndValidate()) {
       final name = _formKey.currentState!.value['name'];
-      final bool existsAlready = collectionController.collections.any((c) => c.name == name);
-      
-      if (existsAlready) {
+      final collection = Collection(name, []);
+      final bool newCollectionName = await collectionController.add(collection);
+
+      if (!newCollectionName) {
         const snackBar = SnackBar(
           content: Center(
-            child: const Text("There is already a collection with the specified name"),
+            child: Text("There is already a collection with the specified name. Please, use some other name for the collection."),
           ),
         );
         
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         return;
       }
-      
-      final collection = Collection(name, []);
-      collectionController.add(collection);
       
       _formKey.currentState?.reset();
       Get.back();

@@ -23,9 +23,21 @@ class CollectionController {
     );
   }
 
-  Future<void> add(Collection collection) async {
+  /**
+   * Return true if a new collection is added and false if there already exists a collection
+   * with the same name.
+   */
+  Future<bool> add(Collection collection) async {
+    final bool alreadyExists = collections.any( (c) => c.name == collection.name );
+
+    if (alreadyExists) {
+      return false;
+    }
+
     collections.add(collection);
     await _save();
+    
+    return true;
   }
 
   Future<void> remove(String collectionName) async {
