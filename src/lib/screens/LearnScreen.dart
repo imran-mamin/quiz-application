@@ -30,13 +30,12 @@ class LearnScreen extends StatelessWidget {
       );
     }
 
-   
     final Collection currentCollection = collectionController.collections[index];
     final List<QuestionAndAnswer> clonedFlashcards = currentCollection.shuffledFlashcards;
 
     return Scaffold(
       appBar: DefaultAppBar(text: "Collection: ${currentCollection.name}"),
-      backgroundColor: const Color.fromARGB(255, 110, 153, 222),
+      backgroundColor: Constants.canvasBackgroundColor,
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
@@ -55,7 +54,7 @@ class LearnScreen extends StatelessWidget {
                   SizedBox(height: 16),
                   Text(
                     "Flashcard ${index + 1} of ${currentCollection.shuffledFlashcards.length}",
-                    style: TextStyle(fontSize: setFontSize(context), color: Colors.white),
+                    style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                   ),
                   FlashCard(
                     width: MediaQuery.of(context).size.width * 0.85,

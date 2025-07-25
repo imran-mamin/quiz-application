@@ -73,7 +73,7 @@ class EditCollectionScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 16.0),
                     child: currentCollection.flashcards.length == 0 ?
-                        Center(child: Text('The Collection is Empty.', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: setFontSize(context)))) :
+                        Center(child: Text('The Collection is Empty', style: TextStyle(color: Constants.textColorOnCanvas, fontWeight: FontWeight.bold, fontSize: setFontSize(context)))) :
                         Column(
                           children: currentCollection.flashcards.map( (fc) => Card(
                             child: ListTile(
