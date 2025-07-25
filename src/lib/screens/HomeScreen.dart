@@ -111,20 +111,11 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Get.toNamed('/collection'),
-      ),
       bottomNavigationBar: DefaultBottomNavigationBar(
         children: [
-          Expanded(child: 
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-              ),
-              onPressed: () => Get.toNamed("/collection"),
-              child: const Text("Add New Collection"),
-            ),
+          FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () => Get.toNamed('/collection'),
           ),
         ],
       ),

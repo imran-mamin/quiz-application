@@ -105,7 +105,7 @@ void main() {
     collectionController.collections.remove(emptyCollection);
   });
 
-  testWidgets('BottomNavigationBar has one button with text "Add New Collection"', (WidgetTester tester) async {
+  testWidgets('BottomNavigationBar has one floatingActionButton with an icon "+"', (WidgetTester tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: HomeScreen(),
@@ -113,8 +113,8 @@ void main() {
     );
 
     final bottomNavBar = find.byType(DefaultBottomNavigationBar);
-    final buttonText = find.descendant(of: bottomNavBar, matching: find.text("Add New Collection"));
+    final addIcon = find.descendant(of: bottomNavBar, matching: find.byIcon(Icons.add));
 
-    expect(buttonText, findsOne);
+    expect(addIcon, findsOne);
   });
 }
