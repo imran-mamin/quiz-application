@@ -117,6 +117,7 @@ class HomeScreen extends StatelessWidget {
           FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () => Get.toNamed('/collection'),
+            mini: true,
           ),
         ],
       ),
