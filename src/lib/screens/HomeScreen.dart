@@ -7,25 +7,26 @@ import 'package:src/constants/theme.dart';
 import 'package:src/main.dart';
 
 class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
   final collectionController = Get.find<CollectionController>();
 
   void _deleteCollection(BuildContext context, Collection collection) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Delete Collection'),
+        title: const Text('Delete Collection'),
         content: Text('Are you sure you want to delete "${collection.name}"?'),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
               collectionController.remove(collection.name);
               Get.back();
             },
-            child: Text('Delete', style: TextStyle(color: Colors.red)),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),          
         ],
       ),
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
   
   void _edit(Collection collection) {
     final index = collectionController.collections.indexOf(collection);
-    Get.toNamed("/editcollection/${index}");
+    Get.toNamed("/editcollection/$index");
   }
 
   void _learn(Collection collection) {
@@ -42,7 +43,7 @@ class HomeScreen extends StatelessWidget {
     collection.shuffleFlashcards();
 
     final index = collectionController.collections.indexOf(collection);
-    Get.toNamed("/learn/${index}");
+    Get.toNamed("/learn/$index");
   }
 
   void _quiz(Collection collection) {
@@ -51,8 +52,8 @@ class HomeScreen extends StatelessWidget {
 
     final int colIndex = collectionController.collections.indexOf(collection);
     // Check whether the collection has flashcards.
-    final String qaIndex = collection.flashcards.length == 0 ? '' : '0';
-    final int correctAnswers = 0; // Current score.
+    final String qaIndex = collection.flashcards.isEmpty ? '' : '0';
+    const int correctAnswers = 0; // Current score.
     Get.toNamed("/quiz/$colIndex/$qaIndex/$correctAnswers");
   }
 
@@ -63,13 +64,13 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Constants.canvasBackgroundColor,
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
+          constraints: const BoxConstraints(maxWidth: Constants.maxScreenWidth),
           child: Padding(
-            padding: EdgeInsets.only(top: 24.0, left: 16.0, right: 16.0),
+            padding: const EdgeInsets.only(top: 24.0, left: 16.0, right: 16.0),
             child: ListView(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 16.0),
+                  padding: const EdgeInsets.only(bottom: 16.0),
                   child: Obx(
                     () => collectionController.size == 0 ?
                       Center(child: Text('No collections', style: TextStyle(color: Constants.textColorOnCanvas, fontWeight: FontWeight.bold, fontSize: setFontSize(context)))) :
@@ -83,19 +84,19 @@ class HomeScreen extends StatelessWidget {
                               spacing: 8,
                               children: [
                                 IconButton(
-                                  icon: Icon(Icons.school),
+                                  icon: const Icon(Icons.school),
                                   onPressed: collection.flashcards.length == 0 ? null : () => _quiz(collection),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.menu_book),
+                                  icon: const Icon(Icons.menu_book),
                                   onPressed: collection.flashcards.length == 0 ? null : () => _learn(collection),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.edit),
+                                  icon: const Icon(Icons.edit),
                                   onPressed: () => _edit(collection),
                                 ),
                                 IconButton(
-                                  icon: Icon(Icons.delete, color: Colors.red),
+                                  icon: const Icon(Icons.delete, color: Colors.red),
                                   onPressed: () => _deleteCollection(context, collection),
                                 ),
                               ],
