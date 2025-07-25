@@ -8,6 +8,9 @@ import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
 class EditCollectionScreen extends StatelessWidget {
+
+  EditCollectionScreen({super.key});
+
   final collectionController = Get.find<CollectionController>();
   
   void _deleteFlashcard(BuildContext context, Collection collection, QuestionAndAnswer flashcard) {
@@ -104,26 +107,20 @@ class EditCollectionScreen extends StatelessWidget {
         ),
         bottomNavigationBar: DefaultBottomNavigationBar(
           children: [
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                onPressed: () => Get.back(),
-                child: Icon(Icons.arrow_back_rounded),
-              ),
+            FloatingActionButton(
+              heroTag: "home",
+              child: const Icon(Icons.home),
+              onPressed: () => Get.back(),
+              mini: true,
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                ),
-                onPressed: () => Get.toNamed("/editcollection/qa/${index}"),
-                child: Text("New Flashcard"),
-              ),
+            FloatingActionButton(
+              heroTag: "add",
+              child: const Icon(Icons.add),
+              onPressed: () => Get.toNamed("/editcollection/qa/$index"),
+              mini: true,
             ),
           ],
         ),

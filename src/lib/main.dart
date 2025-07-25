@@ -98,7 +98,7 @@ class DefaultBottomNavigationBar extends StatelessWidget {
           child: ConstrainedBox(
             constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: this.children,
             ),
           ),
