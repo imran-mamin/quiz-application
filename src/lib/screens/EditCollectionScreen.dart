@@ -6,6 +6,7 @@ import 'package:src/models/flashcard.dart';
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
+import 'package:src/screens/TakePictureScreen.dart';
 
 class EditCollectionScreen extends StatelessWidget {
   final collectionController = Get.find<CollectionController>();
@@ -37,6 +38,17 @@ class EditCollectionScreen extends StatelessWidget {
     final int colIndex = collectionController.collections.indexOf(collection);
     final int qaIndex = collection.flashcards.indexOf(flashcard);
     Get.toNamed("/editcollection/qa/$colIndex/$qaIndex");
+  }
+
+  void _takepicture() {
+    if (cameras.isEmpty) {
+      print("No cameras found error");
+      return;
+    }
+
+    final firstCamera = cameras.first;
+
+    Get.to(() => TakePictureScreen(camera: firstCamera));
   }
 
   @override
@@ -101,6 +113,11 @@ class EditCollectionScreen extends StatelessWidget {
               ),
             ),
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _takepicture,
+          tooltip: 'Camera',
+          child: const Icon(Icons.camera_alt),
         ),
         bottomNavigationBar: DefaultBottomNavigationBar(
           children: [

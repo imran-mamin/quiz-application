@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:camera/camera.dart';
 
 import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
@@ -21,8 +23,18 @@ Future<void> initAppForMain() async {
   Get.lazyPut<CollectionController>(() => CollectionController());
 }
 
+late List<CameraDescription> cameras;
 Future<void> main() async {
+  // Ensure that plugin services are initialized so that 'availableCameras()'
+  // can be called before 'runApp()'.
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Hive.
   await initAppForMain();
+
+  // Obtain a list of the available cameras on the device.
+  cameras = await availableCameras();
+  
   runApp(
     GetMaterialApp(
       initialRoute: "/",
