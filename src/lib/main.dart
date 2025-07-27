@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
@@ -32,8 +33,10 @@ Future<void> main() async {
   // Initialize Hive.
   await initAppForMain();
 
-  // Obtain a list of the available cameras on the device.
-  cameras = await availableCameras();
+  if (!kIsWeb) {
+    // Obtain a list of the available cameras on the device.
+    cameras = await availableCameras();
+  }
   
   runApp(
     GetMaterialApp(

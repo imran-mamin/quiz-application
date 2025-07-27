@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:src/models/collection.dart';
 import 'package:src/models/flashcard.dart';
@@ -9,6 +10,8 @@ import 'package:src/constants/theme.dart';
 import 'package:src/screens/TakePictureScreen.dart';
 
 class EditCollectionScreen extends StatelessWidget {
+  EditCollectionScreen({super.key});
+
   final collectionController = Get.find<CollectionController>();
   
   void _deleteFlashcard(BuildContext context, Collection collection, QuestionAndAnswer flashcard) {
@@ -114,11 +117,12 @@ class EditCollectionScreen extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: !kIsWeb ? FloatingActionButton(
           onPressed: _takepicture,
           tooltip: 'Camera',
           child: const Icon(Icons.camera_alt),
-        ),
+        )
+        : null,
         bottomNavigationBar: DefaultBottomNavigationBar(
           children: [
             Expanded(
