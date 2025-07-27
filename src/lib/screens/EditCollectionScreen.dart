@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:src/models/collection.dart';
 import 'package:src/models/flashcard.dart';
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
+import 'package:src/screens/TakePictureScreen.dart';
 
 class EditCollectionScreen extends StatelessWidget {
+  EditCollectionScreen({super.key});
+
   final collectionController = Get.find<CollectionController>();
   
   void _deleteFlashcard(BuildContext context, Collection collection, QuestionAndAnswer flashcard) {
@@ -37,6 +41,17 @@ class EditCollectionScreen extends StatelessWidget {
     final int colIndex = collectionController.collections.indexOf(collection);
     final int qaIndex = collection.flashcards.indexOf(flashcard);
     Get.toNamed("/editcollection/qa/$colIndex/$qaIndex");
+  }
+
+  void _takepicture() {
+    if (cameras.isEmpty) {
+      print("No cameras found error");
+      return;
+    }
+
+    final firstCamera = cameras.first;
+
+    Get.to(() => TakePictureScreen(camera: firstCamera));
   }
 
   @override
@@ -102,6 +117,12 @@ class EditCollectionScreen extends StatelessWidget {
             ),
           ),
         ),
+        floatingActionButton: !kIsWeb ? FloatingActionButton(
+          onPressed: _takepicture,
+          tooltip: 'Camera',
+          child: const Icon(Icons.camera_alt),
+        )
+        : null,
         bottomNavigationBar: DefaultBottomNavigationBar(
           children: [
             Expanded(
