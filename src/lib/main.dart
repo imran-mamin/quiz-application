@@ -51,9 +51,9 @@ Future<void> main() async {
         GetPage(name: "/editcollection/:index", page: () => EditCollectionScreen()),
         GetPage(name: "/editcollection/qa/:index", page: () => QuestionAndAnswerScreen()),
         GetPage(name: "/editcollection/qa/:colIndex/:qaIndex", page: () => EditQuestionAndAnswerScreen()),
-        GetPage(name: "/quiz/:colIndex/:score", page: () => QuizScreen()),
+        GetPage(name: "/quiz/:colIndex", page: () => QuizScreen()),
         GetPage(name: "/learn/:index", page: () => LearnScreen()),
-        GetPage(name: "/quiz/results/:score/total/:total", page: () => ResultScreen()),
+        GetPage(name: "/quiz/results", page: () => const ResultScreen()),
       ],
     ),
   );

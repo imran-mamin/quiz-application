@@ -45,9 +45,7 @@ class HomeScreen extends StatelessWidget {
 
   void _quiz(Collection collection) {
     final int colIndex = collectionController.collections.indexOf(collection);
-    const int correctAnswers = 0; // Current score.
-    print("Question: ${collection.flashcards.firstWhere( (fc) => fc.revise == true ).question}");
-    Get.toNamed("/quiz/$colIndex/$correctAnswers");
+    Get.toNamed("/quiz/$colIndex");
   }
 
   @override
