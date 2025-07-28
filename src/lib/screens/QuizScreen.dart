@@ -8,69 +8,79 @@ import 'package:src/models/flashcard.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
-class QuizScreen extends StatelessWidget {
-  QuizScreen({super.key});
+class QuizScreen extends StatefulWidget {
+  const QuizScreen({super.key});
+
+  @override
+  State<QuizScreen> createState() => _QuizScreenState();
+}
+
+class _QuizScreenState extends State<QuizScreen> {
+  final RxList<QuestionAndAnswer> flashcardsToRevise = <QuestionAndAnswer>[].obs;
 
   final collectionController = Get.find<CollectionController>();
   
-  void _correct(int colIndex, List<QuestionAndAnswer> flashcardsToRevise) {
+  void _correct(int colIndex) {
     final Collection currentCollection = collectionController.collections[colIndex];
 
-    if (flashcardsToRevise.length > 1) {
-      final QuestionAndAnswer qa = flashcardsToRevise.first;
-      // Update revisionInterval and date.
-      currentCollection.updateRevisionInterval(qa, true);
-      Get.toNamed("/quiz/$colIndex");
+    final QuestionAndAnswer qa = flashcardsToRevise.last;
+    // Update revisionInterval and date.
+    currentCollection.updateRevisionInterval(qa, true);
+    
+    if (flashcardsToRevise.length == 1) {
+      Get.offNamed('/results');
     } else {
-      final QuestionAndAnswer qa = flashcardsToRevise.first;
-      // Update revisionInterval and date.
-      currentCollection.updateRevisionInterval(qa, true);
-      Get.toNamed('/quiz/results');
+      flashcardsToRevise.removeLast();
     }
   }
 
-  void _incorrect(int colIndex, List<QuestionAndAnswer> flashcardsToRevise) {
+  void _incorrect(int colIndex) {
     final Collection currentCollection = collectionController.collections[colIndex];
-
-    if (flashcardsToRevise.length > 1) {
-      final QuestionAndAnswer qa = flashcardsToRevise.first;
     
-      // Update revisionInterval and date.
-      currentCollection.updateRevisionInterval(qa, false);
-      Get.toNamed("/quiz/$colIndex");
-    } else {
-      final QuestionAndAnswer qa = flashcardsToRevise.first;
+    final QuestionAndAnswer qa = flashcardsToRevise.last;
+    // Update revisionInterval and date.
+    currentCollection.updateRevisionInterval(qa, false);
+    flashcardsToRevise.shuffle();
+  }
 
-      // Update revisionInterval and date.
-      currentCollection.updateRevisionInterval(qa, false);
-      Get.toNamed('/quiz/results');
+  @override
+  void initState() {
+    super.initState();
+    final colIndexStr = Get.parameters['colIndex'];
+    final colIndex = int.tryParse(colIndexStr ?? '');
+
+    if (colIndex != null && colIndex >= 0 && colIndex < collectionController.size) {
+      final currentCollection = collectionController.collections[colIndex];
+      flashcardsToRevise.value = currentCollection.shuffledFlashcardsToRevise();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    
+    final colIndexStr = Get.parameters['colIndex'];
+    final colIndex = int.tryParse(colIndexStr ?? '');
+
+    final bool colIndexOutOfRange = colIndex == null || colIndex < 0 || colIndex >= collectionController.size;
+
+    if (colIndexOutOfRange) {
+      print("colIndex = ${colIndex}");
+      return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 110, 153, 222),
+        appBar: AppBar(
+          foregroundColor: Colors.white,
+          centerTitle: true,
+          backgroundColor: const Color.fromARGB(255, 27, 39, 93),
+          title: const Text("Error")
+        ),
+        body: const Center(child: Text("Invalid collection index")),
+      );
+    }
+
+    final Collection currentCollection = collectionController.collections[colIndex];
+    
     return Obx(() {
-      final colIndexStr = Get.parameters['colIndex'];
-      final colIndex = int.tryParse(colIndexStr ?? '');
-
-      final bool colIndexOutOfRange = colIndex == null || colIndex < 0 || colIndex >= collectionController.size;
-
-      if (colIndexOutOfRange) {
-        return Scaffold(
-          backgroundColor: const Color.fromARGB(255, 110, 153, 222),
-          appBar: AppBar(
-            foregroundColor: Colors.white,
-            centerTitle: true,
-            backgroundColor: const Color.fromARGB(255, 27, 39, 93),
-            title: const Text("Error")
-          ),
-          body: const Center(child: Text("Invalid collection index")),
-        );
-      }
-
-      final Collection currentCollection = collectionController.collections[colIndex];
-      final List<QuestionAndAnswer> flashcardsToRevise = currentCollection.shuffledFlashcardsToRevise();
-      final QuestionAndAnswer qa = flashcardsToRevise.first;
+      final QuestionAndAnswer qa = flashcardsToRevise.last;
 
       return Scaffold(
         appBar: DefaultAppBar(text: "Quiz - ${currentCollection.name}"),
@@ -122,7 +132,7 @@ class QuizScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                         ),
                         icon: const Icon(Icons.thumb_down, color: Colors.amber),
-                        onPressed: () => _incorrect(colIndex, flashcardsToRevise),
+                        onPressed: () => _incorrect(colIndex),
                         label: const Text("Bad"),
                       ),
                       ElevatedButton.icon(
@@ -132,7 +142,7 @@ class QuizScreen extends StatelessWidget {
                         ),
                         icon: const Icon(Icons.thumb_up, color: Colors.amber),
                         label: const Text("Good"),
-                        onPressed: () => _correct(colIndex, flashcardsToRevise),
+                        onPressed: () => _correct(colIndex),
                       ),
                     ],
                   ),

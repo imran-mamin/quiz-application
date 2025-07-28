@@ -53,7 +53,7 @@ Future<void> main() async {
         GetPage(name: "/editcollection/qa/:colIndex/:qaIndex", page: () => EditQuestionAndAnswerScreen()),
         GetPage(name: "/quiz/:colIndex", page: () => QuizScreen()),
         GetPage(name: "/learn/:index", page: () => LearnScreen()),
-        GetPage(name: "/quiz/results", page: () => const ResultScreen()),
+        GetPage(name: "/results", page: () => const ResultScreen()),
       ],
     ),
   );
