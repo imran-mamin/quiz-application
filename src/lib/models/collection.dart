@@ -42,6 +42,12 @@ class Collection {
     fc.lastRevisionDate = DateTime.timestamp();
   }
 
+  List<QuestionAndAnswer> shuffledFlashcardsToRevise() {
+    final List<QuestionAndAnswer> flashcardsToRevise = flashcards.where( (fc) => fc.revise == true ).toList();
+    flashcardsToRevise.shuffle();
+    return flashcardsToRevise;
+  }
+
   Map<String, dynamic> toJson() => {
     'name': name,
     'flashcards': flashcards.map( (fc) => fc.toJson()).toList(),

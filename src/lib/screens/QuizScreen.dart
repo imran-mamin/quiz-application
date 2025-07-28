@@ -9,13 +9,11 @@ import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
 class QuizScreen extends StatelessWidget {
-  RxList<QuestionAndAnswer> flashcardsToRevise = <QuestionAndAnswer>[].obs;
-
   QuizScreen({super.key});
 
   final collectionController = Get.find<CollectionController>();
   
-  void _correct(int colIndex) {
+  void _correct(int colIndex, List<QuestionAndAnswer> flashcardsToRevise) {
     final Collection currentCollection = collectionController.collections[colIndex];
 
     if (flashcardsToRevise.length > 1) {
@@ -31,7 +29,7 @@ class QuizScreen extends StatelessWidget {
     }
   }
 
-  void _incorrect(int colIndex) {
+  void _incorrect(int colIndex, List<QuestionAndAnswer> flashcardsToRevise) {
     final Collection currentCollection = collectionController.collections[colIndex];
 
     if (flashcardsToRevise.length > 1) {
@@ -71,11 +69,7 @@ class QuizScreen extends StatelessWidget {
       }
 
       final Collection currentCollection = collectionController.collections[colIndex];
-      
-      // Define a list that should be revised and shuffle it.
-      flashcardsToRevise.value = currentCollection.flashcards.where( (fc) => fc.revise == true ).toList();
-      flashcardsToRevise.shuffle();
-
+      final List<QuestionAndAnswer> flashcardsToRevise = currentCollection.shuffledFlashcardsToRevise();
       final QuestionAndAnswer qa = flashcardsToRevise.first;
 
       return Scaffold(
@@ -128,7 +122,7 @@ class QuizScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                         ),
                         icon: const Icon(Icons.thumb_down, color: Colors.amber),
-                        onPressed: () => _incorrect(colIndex),
+                        onPressed: () => _incorrect(colIndex, flashcardsToRevise),
                         label: const Text("Bad"),
                       ),
                       ElevatedButton.icon(
@@ -138,7 +132,7 @@ class QuizScreen extends StatelessWidget {
                         ),
                         icon: const Icon(Icons.thumb_up, color: Colors.amber),
                         label: const Text("Good"),
-                        onPressed: () => _correct(colIndex),
+                        onPressed: () => _correct(colIndex, flashcardsToRevise),
                       ),
                     ],
                   ),
