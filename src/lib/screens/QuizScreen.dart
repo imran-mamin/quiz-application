@@ -9,12 +9,19 @@ import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
 class QuizScreen extends StatelessWidget {
+  QuizScreen({super.key});
+
   final collectionController = Get.find<CollectionController>();
   
   void _correct(int colIndex, int qaIndex, int score) {
     final Collection currentCollection = collectionController.collections[colIndex];
 
     if (qaIndex < (currentCollection.flashcards.length - 1)) {
+      final QuestionAndAnswer qa = currentCollection.flashcards[qaIndex];
+      print(currentCollection.flashcards.length);
+      print("qaIndex: $qaIndex");
+      // Update revisionInterval and date.
+      currentCollection.updateRevisionInterval(qa, true);
       Get.toNamed("/quiz/$colIndex/${qaIndex + 1}/${score + 1}");
     } else {
       Get.toNamed('/quiz/results/${score + 1}/total/${currentCollection.flashcards.length}');
@@ -23,8 +30,12 @@ class QuizScreen extends StatelessWidget {
 
   void _incorrect(int colIndex, int qaIndex, int score) {
     final Collection currentCollection = collectionController.collections[colIndex];
-    
+
     if (qaIndex < (currentCollection.flashcards.length - 1)) {
+      final QuestionAndAnswer qa = currentCollection.flashcards[qaIndex];
+    
+      // Update revisionInterval and date.
+      currentCollection.updateRevisionInterval(qa, false);
       Get.toNamed("/quiz/$colIndex/${qaIndex + 1}/$score");
     } else {
       Get.toNamed('/quiz/results/$score/total/${currentCollection.flashcards.length}');
@@ -70,7 +81,7 @@ class QuizScreen extends StatelessWidget {
       );
     }
 
-    final QuestionAndAnswer qa = currentCollection.shuffledFlashcards[qaIndex];
+    final QuestionAndAnswer qa = currentCollection.flashcards[qaIndex];
 
     final scoreStr = Get.parameters['score'];
     final score = int.tryParse(scoreStr ?? '');
@@ -93,22 +104,22 @@ class QuizScreen extends StatelessWidget {
       backgroundColor: Constants.canvasBackgroundColor,
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
+          constraints: const BoxConstraints(maxWidth: Constants.maxScreenWidth),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 LinearProgressIndicator(
-                  value: (qaIndex + 1) / currentCollection.shuffledFlashcards.length,
+                  value: (qaIndex + 1) / currentCollection.flashcards.length,
                   backgroundColor: Colors.white24,
                   color: Colors.white,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
-                  "Flashcard ${qaIndex + 1} of ${currentCollection.shuffledFlashcards.length}",
+                  "Flashcard ${qaIndex + 1} of ${currentCollection.flashcards.length}",
                   style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Expanded(
                   child: FlashCard(
                     width: MediaQuery.of(context).size.width * 0.85,
@@ -139,31 +150,31 @@ class QuizScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.redAccent,
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                       ),
-                      icon: Icon(Icons.thumb_down, color: Colors.amber),
+                      icon: const Icon(Icons.thumb_down, color: Colors.amber),
                       onPressed: () => _incorrect(colIndex, qaIndex, score),
-                      label: Text("Incorrect"),
+                      label: const Text("Bad"),
                     ),
                     ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
-                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                       ),
-                      icon: Icon(Icons.thumb_up, color: Colors.amber),
-                      label: Text("Correct"),
+                      icon: const Icon(Icons.thumb_up, color: Colors.amber),
+                      label: const Text("Good"),
                       onPressed: () => _correct(colIndex, qaIndex, score),
                     ),
                   ],
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
               ],
             ),
           ),

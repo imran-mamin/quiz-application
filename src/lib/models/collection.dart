@@ -6,15 +6,8 @@ import 'package:src/models/flashcard.dart';
 class Collection {
   String name;
   RxList<QuestionAndAnswer> flashcards;
-  List<QuestionAndAnswer> shuffledFlashcards = [];
 
   Collection(this.name, List<QuestionAndAnswer> fc) : flashcards = fc.obs;
-
-  void shuffleFlashcards() {
-    // Find flashcards with 'revise == true'.
-    shuffledFlashcards = flashcards.where( (fc) => fc.revise == true ).toList();
-    shuffledFlashcards.shuffle();
-  }
 
   // This method is an algorithm for flashcard repetition.
   void updateRevisionTimes() {

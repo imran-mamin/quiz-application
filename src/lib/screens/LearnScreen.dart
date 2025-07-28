@@ -9,6 +9,7 @@ import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
 class LearnScreen extends StatelessWidget {
+  LearnScreen({super.key});
   final collectionController = Get.find<CollectionController>();
   
   @override
@@ -31,29 +32,28 @@ class LearnScreen extends StatelessWidget {
     }
 
     final Collection currentCollection = collectionController.collections[index];
-    final List<QuestionAndAnswer> clonedFlashcards = currentCollection.shuffledFlashcards;
 
     return Scaffold(
       appBar: DefaultAppBar(text: "Collection: ${currentCollection.name}"),
       backgroundColor: Constants.canvasBackgroundColor,
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
+          constraints: const BoxConstraints(maxWidth: Constants.maxScreenWidth),
           child: PageView.builder(
-            itemCount: clonedFlashcards.length,
+            itemCount: currentCollection.flashcards.length,
             itemBuilder: (context, index) {
-              final QuestionAndAnswer qa = clonedFlashcards[index];
+              final QuestionAndAnswer qa = currentCollection.flashcards[index];
 
               return Padding(padding: const EdgeInsets.all(16), child: Column(
                 children: [
                   LinearProgressIndicator(
-                    value: (index + 1) / currentCollection.shuffledFlashcards.length,
+                    value: (index + 1) / currentCollection.flashcards.length,
                     backgroundColor: Colors.white24,
                     color: Colors.white,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
-                    "Flashcard ${index + 1} of ${currentCollection.shuffledFlashcards.length}",
+                    "Flashcard ${index + 1} of ${currentCollection.flashcards.length}",
                     style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                   ),
                   FlashCard(
@@ -98,7 +98,7 @@ class LearnScreen extends StatelessWidget {
                 backgroundColor: Colors.white,
               ),
               onPressed: () => Get.back(),
-              child: Icon(Icons.home),
+              child: const Icon(Icons.home),
             ),
           ),
         ],
