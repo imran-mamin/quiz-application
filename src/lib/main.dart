@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
-import 'package:date_time/date_time.dart';
 
 import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
@@ -20,14 +19,13 @@ import 'package:src/screens/QuizScreen.dart';
 import 'package:src/screens/ResultScreen.dart';
 
 Future<void> initAppForMain() async {
-  final now = DateTime.timestamp();
-  print(now);
   await Hive.initFlutter();
   await Hive.openBox("storage");
   Get.lazyPut<CollectionController>(() => CollectionController());
 }
 
 late List<CameraDescription> cameras;
+
 Future<void> main() async {
   // Ensure that plugin services are initialized so that 'availableCameras()'
   // can be called before 'runApp()'.
@@ -41,6 +39,9 @@ Future<void> main() async {
     cameras = await availableCameras();
   }
 
+  final CollectionController collectionController = Get.find<CollectionController>();
+  collectionController.updateTimeStampsInFlashcards();
+
   runApp(
     GetMaterialApp(
       initialRoute: "/",
@@ -50,7 +51,7 @@ Future<void> main() async {
         GetPage(name: "/editcollection/:index", page: () => EditCollectionScreen()),
         GetPage(name: "/editcollection/qa/:index", page: () => QuestionAndAnswerScreen()),
         GetPage(name: "/editcollection/qa/:colIndex/:qaIndex", page: () => EditQuestionAndAnswerScreen()),
-        GetPage(name: "/quiz/:colIndex/:qaIndex/:score", page: () => QuizScreen()),
+        GetPage(name: "/quiz/:colIndex/:score", page: () => QuizScreen()),
         GetPage(name: "/learn/:index", page: () => LearnScreen()),
         GetPage(name: "/quiz/results/:score/total/:total", page: () => ResultScreen()),
       ],

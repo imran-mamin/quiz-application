@@ -52,10 +52,12 @@ class CollectionController {
     await _save();
   }
 
-  void updateTimeStampsInFlashcards() {
+  void updateTimeStampsInFlashcards() async {
     for (final c in collections) {
       c.updateRevisionTimes();
     }
+    
+    await _save();
   }
 
   int get size => collections.length;
