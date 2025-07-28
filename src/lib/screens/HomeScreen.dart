@@ -79,7 +79,13 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white,
                           child: ListTile(
                             title: Text("${collection.name}"),
-                            subtitle: Text("Size: ${collection.flashcards.length} flashcard${collection.flashcards.length == 1 ? '' : 's'}"),
+                            subtitle: Row(
+                              children: [
+                                Text("Size: ${collection.flashcards.length} flashcard${collection.flashcards.length == 1 ? '' : 's'}, "),
+                                Text("${collection.flashcards.where( (fc) => fc.revise == true).length}, "),
+                                Text("${collection.flashcards.length - collection.flashcards.where( (fc) => fc.revise == true ).length}"),
+                              ],
+                            ),
                             trailing: Wrap(
                               spacing: 8,
                               children: [
