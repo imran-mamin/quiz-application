@@ -101,7 +101,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         child: Center(
                           child: SingleChildScrollView(
                             child: Text(
-                              qa.answer,
+                              qa.answer.value,
                               style: TextStyle(fontSize: setFontSize(context)),
                               textAlign: TextAlign.center,
                             ),
@@ -113,7 +113,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         child: Center(
                           child: SingleChildScrollView(
                             child: Text(
-                              qa.question,
+                              qa.question.value,
                               style: TextStyle(fontSize: setFontSize(context)),
                               textAlign: TextAlign.center,
                             ),

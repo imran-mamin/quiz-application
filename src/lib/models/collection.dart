@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:src/controllers/collection_controller.dart';
 import 'dart:math';
 
 import 'package:src/models/flashcard.dart';
@@ -14,36 +15,41 @@ class Collection {
     final now = DateTime.timestamp();
     
     for (final fc in flashcards) {
-      final diff = now.difference(fc.lastRevisionDate);
+      final diff = now.difference(fc.lastRevisionDate.value);
       
-      if (diff.inDays >= fc.revisionInterval) {
-        fc.revise = true;
+      if (diff.inDays >= fc.revisionInterval.value) {
+        fc.revise.value = true;
       } else {
-        fc.revise = false;
+        fc.revise.value = false;
       }
     }
+
+    final collectionController = Get.find<CollectionController>();
+    // TODO: The problem is that GetX doesn't notice any changes in QuestionAndAnswer object.
+    // It only notices changes in collections.
+    collectionController.collections.refresh();
   }
 
   // This method updates revisionInterval and date for a single flashcard.
   void updateRevisionInterval(QuestionAndAnswer fc, bool answeredCorrectly) {
     if (answeredCorrectly) {
-      if (fc.revisionInterval == 0) {
-        fc.revise = false;
-        fc.revisionInterval = 1;
+      if (fc.revisionInterval.value == 0) {
+        fc.revise.value = false;
+        fc.revisionInterval.value = 1;
       } else {
-        fc.revise = false;
-        fc.revisionInterval = min(365, fc.revisionInterval * 2);
+        fc.revise.value = false;
+        fc.revisionInterval.value = min(365, fc.revisionInterval.value * 2);
       }
     } else {
-      fc.revisionInterval = 0;
-      fc.revise = true;
+      fc.revisionInterval.value = 0;
+      fc.revise.value = true;
     }
 
-    fc.lastRevisionDate = DateTime.timestamp();
+    fc.lastRevisionDate.value = DateTime.timestamp();
   }
 
   List<QuestionAndAnswer> shuffledFlashcardsToRevise() {
-    final List<QuestionAndAnswer> flashcardsToRevise = flashcards.where( (fc) => fc.revise == true ).toList();
+    final List<QuestionAndAnswer> flashcardsToRevise = flashcards.where( (fc) => fc.revise.value == true ).toList();
     flashcardsToRevise.shuffle();
     return flashcardsToRevise;
   }
@@ -56,14 +62,7 @@ class Collection {
   factory Collection.fromJson(Map json) {
     return Collection(
       json['name'],
-      (json['flashcards'] as List).map( (item) =>
-        QuestionAndAnswer(
-          question: item['question'],
-          answer: item['answer'],
-          revisionInterval: item['revisionInterval'],
-          revise: item['revise'],
-          lastRevisionDate: item['lastRevisionDate']
-        )).toList(),
+      (json['flashcards'] as List).map( (item) => QuestionAndAnswer.fromJson(item) ).toList(),
     );
   }
 }
