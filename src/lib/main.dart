@@ -44,6 +44,7 @@ Future<void> main() async {
 
   final CollectionController collectionController = Get.find<CollectionController>();
   collectionController.updateTimeStampsInFlashcards();
+  Timer.periodic(const Duration(days: 1), (timer) => collectionController.updateTimeStampsInFlashcards());
 
   runApp(
     GetMaterialApp(
