@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'dart:math';
 
 import 'package:src/models/flashcard.dart';
 
@@ -23,7 +24,7 @@ class Collection {
     }
   }
 
-  // This method updates revisionInterval for a single flashcard.
+  // This method updates revisionInterval and date for a single flashcard.
   void updateRevisionInterval(QuestionAndAnswer fc, bool answeredCorrectly) {
     if (answeredCorrectly) {
       if (fc.revisionInterval == 0) {
@@ -31,7 +32,7 @@ class Collection {
         fc.revisionInterval = 1;
       } else {
         fc.revise = false;
-        fc.revisionInterval *= 2;
+        fc.revisionInterval = min(365, fc.revisionInterval * 2);
       }
     } else {
       fc.revisionInterval = 0;
