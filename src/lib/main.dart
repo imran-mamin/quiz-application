@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
@@ -30,6 +31,9 @@ Future<void> main() async {
   // Ensure that plugin services are initialized so that 'availableCameras()'
   // can be called before 'runApp()'.
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Hide bottom system navigation bar.
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   
   // Initialize Hive.
   await initAppForMain();
