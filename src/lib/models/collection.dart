@@ -25,9 +25,10 @@ class Collection {
     }
 
     final collectionController = Get.find<CollectionController>();
-    // TODO: The problem is that GetX doesn't notice any changes in QuestionAndAnswer object.
-    // It only notices changes in collections.
-    collectionController.collections.refresh();
+    // TODO: Come up with a more elegant way of notifying Hive about changes in collection.
+    final collectionIndex = collectionController.collections.indexWhere( (c) => c.name == name );
+    final updatedCollection = Collection(name, flashcards);
+    collectionController.updateCollection(collectionIndex, updatedCollection);
   }
 
   // This method updates revisionInterval and date for a single flashcard.
@@ -46,6 +47,12 @@ class Collection {
     }
 
     fc.lastRevisionDate.value = DateTime.timestamp();
+
+    final collectionController = Get.find<CollectionController>();
+    // TODO: Come up with a more elegant way of notifying Hive about changes in collection.
+    final collectionIndex = collectionController.collections.indexWhere( (c) => c.name == name );
+    final updatedCollection = Collection(name, flashcards);
+    collectionController.updateCollection(collectionIndex, updatedCollection);
   }
 
   List<QuestionAndAnswer> shuffledFlashcardsToRevise() {
