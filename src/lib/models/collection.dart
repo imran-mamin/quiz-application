@@ -51,6 +51,12 @@ class Collection {
     collectionController.persist();
   }
 
+  List<QuestionAndAnswer> shuffledFlashcards() {
+    final List<QuestionAndAnswer> flashcardsCopy = [...flashcards];
+    flashcardsCopy.shuffle();
+    return flashcardsCopy;
+  }
+
   List<QuestionAndAnswer> shuffledFlashcardsToRevise() {
     final List<QuestionAndAnswer> flashcardsToRevise = flashcards.where( (fc) => fc.revise.value == true ).toList();
     flashcardsToRevise.shuffle();

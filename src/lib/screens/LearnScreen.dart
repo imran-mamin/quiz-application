@@ -1,6 +1,7 @@
 import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path/path.dart';
 
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/models/flashcard.dart';
@@ -32,6 +33,7 @@ class LearnScreen extends StatelessWidget {
     }
 
     final Collection currentCollection = collectionController.collections[index];
+    final List<QuestionAndAnswer> shuffledFlashcards = currentCollection.shuffledFlashcards();
 
     return Scaffold(
       appBar: DefaultAppBar(text: "Collection: ${currentCollection.name}"),
@@ -42,18 +44,18 @@ class LearnScreen extends StatelessWidget {
           child: PageView.builder(
             itemCount: currentCollection.flashcards.length,
             itemBuilder: (context, index) {
-              final QuestionAndAnswer qa = currentCollection.flashcards[index];
+              final QuestionAndAnswer qa = shuffledFlashcards[index];
 
               return Padding(padding: const EdgeInsets.all(16), child: Column(
                 children: [
                   LinearProgressIndicator(
-                    value: (index + 1) / currentCollection.flashcards.length,
+                    value: (index + 1) / shuffledFlashcards.length,
                     backgroundColor: Colors.white24,
                     color: Colors.white,
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    "Flashcard ${index + 1} of ${currentCollection.flashcards.length}",
+                    "Flashcard ${index + 1} of ${shuffledFlashcards.length}",
                     style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                   ),
                   FlashCard(
