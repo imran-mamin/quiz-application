@@ -24,11 +24,9 @@ class Collection {
       }
     }
 
+    // Save changes in Hive.
     final collectionController = Get.find<CollectionController>();
-    // TODO: Come up with a more elegant way of notifying Hive about changes in collection.
-    final collectionIndex = collectionController.collections.indexWhere( (c) => c.name == name );
-    final updatedCollection = Collection(name, flashcards);
-    collectionController.updateCollection(collectionIndex, updatedCollection);
+    collectionController.persist();
   }
 
   // This method updates revisionInterval and date for a single flashcard.
@@ -48,11 +46,9 @@ class Collection {
 
     fc.lastRevisionDate.value = DateTime.timestamp();
 
+    // Save changes in Hive.
     final collectionController = Get.find<CollectionController>();
-    // TODO: Come up with a more elegant way of notifying Hive about changes in collection.
-    final collectionIndex = collectionController.collections.indexWhere( (c) => c.name == name );
-    final updatedCollection = Collection(name, flashcards);
-    collectionController.updateCollection(collectionIndex, updatedCollection);
+    collectionController.persist();
   }
 
   List<QuestionAndAnswer> shuffledFlashcardsToRevise() {

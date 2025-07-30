@@ -23,6 +23,10 @@ class CollectionController {
     );
   }
 
+  Future<void> persist() async {
+    await _save();
+  }
+
   /**
    * Return true if a new collection is added and false if there already exists a collection
    * with the same name.
