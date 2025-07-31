@@ -24,7 +24,7 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 /*
 Modifications made by Imran Mamin on 31/07/2025:
-- Removed default elevation from Card widgets.
+- Removed padding from Card widgets.
 - Removed 'library flash_card;' from the beginning of the file.
 */
 import 'dart:math' as math;
