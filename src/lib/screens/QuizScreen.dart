@@ -98,6 +98,8 @@ class _QuizScreenState extends State<QuizScreen> {
                       height: MediaQuery.of(context).size.height * 0.45,
                       frontWidget: Card(
                         color: Colors.white,
+                        margin: EdgeInsets.zero,
+                        elevation: 0,
                         child: Center(
                           child: SingleChildScrollView(
                             child: Text(
@@ -110,6 +112,8 @@ class _QuizScreenState extends State<QuizScreen> {
                       ),
                       backWidget: Card(
                         color: Colors.white,
+                        margin: EdgeInsets.zero,
+                        elevation: 0,
                         child: Center(
                           child: SingleChildScrollView(
                             child: Text(
@@ -128,8 +132,13 @@ class _QuizScreenState extends State<QuizScreen> {
                     children: [
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
+                          backgroundColor: const Color.fromARGB(255, 255, 118, 118),
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                          side: const BorderSide(
+                            color: Color.fromARGB(255, 238, 57, 44),
+                            width: 2,
+                          ),
+                          elevation: 2,
                         ),
                         icon: const Icon(Icons.thumb_down, color: Colors.amber),
                         onPressed: () => _incorrect(colIndex),
@@ -137,8 +146,13 @@ class _QuizScreenState extends State<QuizScreen> {
                       ),
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: const Color.fromARGB(255, 140, 226, 122),
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                          side: const BorderSide(
+                            color: Color.fromARGB(255, 18, 116, 21),
+                            width: 2,
+                          ),
+                          elevation: 2,
                         ),
                         icon: const Icon(Icons.thumb_up, color: Colors.amber),
                         label: const Text("Good"),
