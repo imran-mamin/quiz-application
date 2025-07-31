@@ -1,13 +1,12 @@
-import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path/path.dart';
 
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/models/flashcard.dart';
 import 'package:src/models/collection.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
+import 'package:src/third_party_code/flash_card.dart';
 
 class LearnScreen extends StatelessWidget {
   LearnScreen({super.key});
@@ -62,6 +61,8 @@ class LearnScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: MediaQuery.of(context).size.height * 0.45,
                     frontWidget: Card(
+                      margin: EdgeInsets.zero,
+                      elevation: 0,
                       color: Colors.white,
                       child: Center(
                         child: SingleChildScrollView(
@@ -74,7 +75,9 @@ class LearnScreen extends StatelessWidget {
                       ),
                     ),
                     backWidget: Card(
+                      margin: EdgeInsets.zero,
                       color: Colors.white,
+                      elevation: 0,
                       child: Center(
                         child: SingleChildScrollView(
                           child: Text(

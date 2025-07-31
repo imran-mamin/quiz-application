@@ -13,7 +13,6 @@ dependencies:
   get: 4.6.6
   flutter_form_builder: ^10.0.1
   form_builder_validators: ^11.1.2
-  flash_card: ^0.0.5
   camera: ^0.11.2
   path_provider: ^2.1.5
   path: ^1.9.1
