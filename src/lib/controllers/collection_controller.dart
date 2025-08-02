@@ -58,7 +58,7 @@ class CollectionController {
 
   void updateTimeStampsInFlashcards() async {
     for (final c in collections) {
-      c.updateRevisionTimes();
+      c.updateReviseLeitner();
     }
     
     await _save();

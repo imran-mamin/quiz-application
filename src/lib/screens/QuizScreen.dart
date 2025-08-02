@@ -25,7 +25,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final QuestionAndAnswer qa = flashcardsToRevise.last;
     // Update revisionInterval and date.
-    currentCollection.updateRevisionInterval(qa, true);
+    currentCollection.updateRevisionIntervalLeitner(qa, true);
     
     if (flashcardsToRevise.length == 1) {
       Get.offNamed('/results');
@@ -39,7 +39,7 @@ class _QuizScreenState extends State<QuizScreen> {
     
     final QuestionAndAnswer qa = flashcardsToRevise.last;
     // Update revisionInterval and date.
-    currentCollection.updateRevisionInterval(qa, false);
+    currentCollection.updateRevisionIntervalLeitner(qa, false);
     flashcardsToRevise.shuffle();
   }
 
