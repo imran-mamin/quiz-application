@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                               ],
                             ),
                             trailing: Wrap(
-                              spacing: 8,
+                              spacing: 0,
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.school),
