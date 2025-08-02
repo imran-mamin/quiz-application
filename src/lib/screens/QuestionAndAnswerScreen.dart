@@ -8,9 +8,14 @@ import 'package:src/models/flashcard.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
-class QuestionAndAnswerScreen extends StatelessWidget {
-  QuestionAndAnswerScreen({super.key});
+class QuestionAndAnswerScreen extends StatefulWidget {
+  const QuestionAndAnswerScreen({super.key});
 
+  @override
+  State<QuestionAndAnswerScreen> createState() => _QuestionAndAnswerScreenState();
+}
+
+class _QuestionAndAnswerScreenState extends State<QuestionAndAnswerScreen> {
   static final _formKey = GlobalKey<FormBuilderState>();
   final collectionController = Get.find<CollectionController>();
   // Says whether reversed card should be added.
