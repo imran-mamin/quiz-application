@@ -33,13 +33,15 @@ class _QuestionAndAnswerScreenState extends State<QuestionAndAnswerScreen> {
       
       final data = _formKey.currentState!.value;
 
-      // When the flashcard is created the revision interval should be 0.
+      // When the flashcard is created the revision interval and grade should be 0, easiness factor 2.5.
       final qa = QuestionAndAnswer(
         question: data['question'],
         answer: data['answer'],
         revisionInterval: 0,
         revise: true,
         lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5,
       );
 
       final collection = collectionController.collections[index];
@@ -53,6 +55,8 @@ class _QuestionAndAnswerScreenState extends State<QuestionAndAnswerScreen> {
           revisionInterval: 0,
           revise: true,
           lastRevisionDate: DateTime.timestamp(),
+          repetitionNumber: 0,
+          easinessFactor: 2.5,
         );
         
         collection.flashcards.add(reversedQa);

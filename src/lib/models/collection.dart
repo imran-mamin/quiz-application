@@ -43,7 +43,7 @@ class Collection {
   /// will be reset to 0.
   /// Note: 256 was selected because it is less than one year (365 days) but still
   /// a multiple of 2. (256 = 2^8).
-  void updateRevisionIntervalLeitner(QuestionAndAnswer fc, bool answeredCorrectly) {
+  /*void updateRevisionIntervalLeitner(QuestionAndAnswer fc, bool answeredCorrectly) {
     if (answeredCorrectly) {
       fc.revise.value = false;
       final int revisionIntervalCandidate = fc.revisionInterval.value == 0 ? 1 : fc.revisionInterval.value * 2;
@@ -59,6 +59,39 @@ class Collection {
     // Save changes in Hive.
     final collectionController = Get.find<CollectionController>();
     collectionController.persist();
+  }*/
+
+  /// SM-2 algorithm.
+  void updateRevisionIntervalSM2(QuestionAndAnswer fc, bool answeredCorrectly) {
+    if (answeredCorrectly) {
+      if (fc.repetitionNumber.value == 0) {
+        fc.revisionInterval.value = 1;
+      } else if (fc.repetitionNumber.value == 1) {
+        fc.revisionInterval.value = 6;
+      } else {
+        fc.revisionInterval.value = (fc.revisionInterval.value * fc.easinessFactor.value).round();
+      }
+
+      fc.repetitionNumber++;
+      fc.revise.value = false;
+    } else {
+      fc.repetitionNumber.value = 0;
+      fc.revisionInterval.value = 1;
+      fc.revise.value = false;
+    }
+
+    final int grade = answeredCorrectly ? 1 : 0;
+    fc.easinessFactor.value = fc.easinessFactor.value + (0.1 - (1 - grade) * (0.08 + (1 - grade) * 0.02));
+    if (fc.easinessFactor.value < 1.3) {
+      fc.easinessFactor.value = 1.3;
+    }
+
+    // Update date.
+    fc.lastRevisionDate.value = DateTime.timestamp();
+
+    // Save changes in Hive.
+    final collectionController = Get.find<CollectionController>();
+    collectionController.persist(); 
   }
 
   List<QuestionAndAnswer> shuffledFlashcards() {

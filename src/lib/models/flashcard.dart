@@ -7,19 +7,25 @@ class QuestionAndAnswer {
   RxBool revise;
   // Date and time will be in UTC.
   Rx<DateTime> lastRevisionDate;
-  
+  RxInt repetitionNumber;
+  RxDouble easinessFactor;
+
   QuestionAndAnswer({
     required String question,
     required String answer,
     required int revisionInterval,
     required bool revise,
     required DateTime lastRevisionDate,
+    required int repetitionNumber,
+    required double easinessFactor,
   }) :
     question = question.obs,
     answer = answer.obs,
     revisionInterval = revisionInterval.obs,
     revise = revise.obs,
-    lastRevisionDate = lastRevisionDate.obs;
+    lastRevisionDate = lastRevisionDate.obs,
+    repetitionNumber = repetitionNumber.obs,
+    easinessFactor = easinessFactor.obs;
   
   Map<String, dynamic> toJson() =>
   {
@@ -28,6 +34,8 @@ class QuestionAndAnswer {
     'revisionInterval': revisionInterval.value,
     'revise': revise.value,
     'lastRevisionDate': lastRevisionDate.value,
+    'repetitionNumber': repetitionNumber.value,
+    'easinessFactor': easinessFactor.value,
   };
 
   factory QuestionAndAnswer.fromJson(Map json) => 
@@ -37,5 +45,7 @@ class QuestionAndAnswer {
       revisionInterval: json['revisionInterval'],
       revise: json['revise'],
       lastRevisionDate: json['lastRevisionDate'],
+      repetitionNumber: json['repetitionNumber'],
+      easinessFactor: json['easinessFactor'],
     );
 }

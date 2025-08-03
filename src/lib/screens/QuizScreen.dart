@@ -25,7 +25,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final QuestionAndAnswer qa = flashcardsToRevise.last;
     // Update revisionInterval and date.
-    currentCollection.updateRevisionIntervalLeitner(qa, true);
+    // currentCollection.updateRevisionIntervalLeitner(qa, true);
+    currentCollection.updateRevisionIntervalSM2(qa, true);
     
     if (flashcardsToRevise.length == 1) {
       Get.offNamed('/results');
@@ -39,8 +40,17 @@ class _QuizScreenState extends State<QuizScreen> {
     
     final QuestionAndAnswer qa = flashcardsToRevise.last;
     // Update revisionInterval and date.
-    currentCollection.updateRevisionIntervalLeitner(qa, false);
-    flashcardsToRevise.shuffle();
+    // currentCollection.updateRevisionIntervalLeitner(qa, false);
+    currentCollection.updateRevisionIntervalSM2(qa, false);
+
+    // Uncomment the line below if Leitner revision algorithm is used to avoid asking same question and
+    // comment out if-else branches.
+    // flashcardsToRevise.shuffle();
+    if (flashcardsToRevise.length == 1) {
+      Get.offNamed('/results');
+    } else {
+      flashcardsToRevise.removeLast();
+    }
   }
 
   @override
