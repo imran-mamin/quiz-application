@@ -43,7 +43,7 @@ class Collection {
   /// will be reset to 0.
   /// Note: 256 was selected because it is less than one year (365 days) but still
   /// a multiple of 2. (256 = 2^8).
-  void updateRevisionIntervalLeitner(QuestionAndAnswer fc, bool answeredCorrectly) {
+  Future<void> updateRevisionIntervalLeitner(QuestionAndAnswer fc, bool answeredCorrectly) async {
     if (answeredCorrectly) {
       fc.revise.value = false;
       final int revisionIntervalCandidate = fc.revisionInterval.value == 0 ? 1 : fc.revisionInterval.value * 2;
@@ -58,11 +58,11 @@ class Collection {
 
     // Save changes in Hive.
     final collectionController = Get.find<CollectionController>();
-    collectionController.persist();
+    await collectionController.persist();
   }
 
   /// SM-2 algorithm.
-  void updateRevisionIntervalSM2(QuestionAndAnswer fc, bool answeredCorrectly) {
+  Future<void> updateRevisionIntervalSM2(QuestionAndAnswer fc, bool answeredCorrectly) async {
     if (answeredCorrectly) {
       if (fc.repetitionNumber.value == 0) {
         fc.revisionInterval.value = 1;
@@ -91,7 +91,7 @@ class Collection {
 
     // Save changes in Hive.
     final collectionController = Get.find<CollectionController>();
-    collectionController.persist(); 
+    await collectionController.persist(); 
   }
 
   List<QuestionAndAnswer> shuffledFlashcards() {
