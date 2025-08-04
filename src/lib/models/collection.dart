@@ -44,6 +44,8 @@ class Collection {
   /// Note: 256 was selected because it is less than one year (365 days) but still
   /// a multiple of 2. (256 = 2^8).
   Future<void> updateRevisionIntervalLeitner(QuestionAndAnswer fc, bool answeredCorrectly) async {
+    assert(fc.revise.value == true, "This function should only be called during revision.");
+    assert(fc.revisionInterval.value >= 0, "Revision interval should be either 0 or positive");
     if (answeredCorrectly) {
       fc.revise.value = false;
       final int revisionIntervalCandidate = fc.revisionInterval.value == 0 ? 1 : fc.revisionInterval.value * 2;
@@ -63,6 +65,11 @@ class Collection {
 
   /// SM-2 algorithm.
   Future<void> updateRevisionIntervalSM2(QuestionAndAnswer fc, bool answeredCorrectly) async {
+    assert(fc.revise.value == true, "This function should only be called during revision.");
+    assert(fc.revisionInterval.value >= 0, "Revision interval should be either 0 or positive");
+    assert(fc.repetitionNumber.value >= 0, "Number of repetitions should be nonnegative.");
+    assert(fc.easinessFactor.value >= 0, "Easiness factor should be nonnegative");
+    
     if (answeredCorrectly) {
       if (fc.repetitionNumber.value == 0) {
         fc.revisionInterval.value = 1;

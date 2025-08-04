@@ -27,7 +27,8 @@ void main() {
     await tearDownTestHive();
   });
 
-  test('Initialize collection named "hello" with one flashcard', () {
+/// Test Leitner algorithm.
+  test('Collection "test" has one flashcard with revisionInterval set to 0 and the user answers incorrectly', () async {
     final List<QuestionAndAnswer> fcs = [
       QuestionAndAnswer(
         question: "question1",
@@ -40,11 +41,15 @@ void main() {
       ),
     ];
     
-    final Collection helloCollection = Collection("hello", fcs);
-    expect(helloCollection.flashcards.length, 1);
+    final Collection testCollection = Collection("test", fcs);
+    expect(testCollection.flashcards.length, 1);
+    
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, false);
+    expect(fcs.first.revise.value, true);
+    expect(fcs.first.revisionInterval.value, 0);
   });
 
-  test('Test Leitner algorithm with one flashcard', () async {
+  test('Collection "test" has one flashcard with revisionInterval set to 0 and the user answers correctly', () async {
     final List<QuestionAndAnswer> fcs = [
       QuestionAndAnswer(
         question: "question1",
@@ -62,5 +67,145 @@ void main() {
 
     expect(fcs.first.revise.value, false);
     expect(fcs.first.revisionInterval.value, 1);
+  });
+
+  test('Collection "test" has one flashcard with revisionInterval set to 1 and the user answers incorrectly', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 1,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, false);
+
+    expect(fcs.first.revise.value, true);
+    expect(fcs.first.revisionInterval.value, 0);
+  });
+
+  test('Collection "test" has one flashcard with revisionInterval set to 1 and the user answers correctly', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 1,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, true);
+
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.revisionInterval.value, 2);
+  });
+
+  test('Flashcard with revisionInterval set to 2 and the user answers incorrectly', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 2,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, false);
+
+    expect(fcs.first.revise.value, true);
+    expect(fcs.first.revisionInterval.value, 0);
+  });
+
+  test('Flashcard with revisionInterval set to 2 and the user answers correctly', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 2,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, true);
+
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.revisionInterval.value, 4); // Since in the case of revisionInterval == 2, it should be doubled.
+  });
+
+  test('Leitner should work even though revisionInterval is not a multiple of 2', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 127, // Just a random odd number.
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, true);
+
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.revisionInterval.value, 254); // 127 * 2 = 254
+  });
+
+  test('The upper bound for revisionInterval should be 256', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 1813, // Some random odd number that is greater than 256
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, true);
+
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.revisionInterval.value, 256);
+  });
+
+  test('In case the answer is incorrect the revisionInterval should be set back to 0', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 518,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalLeitner(fcs.first, false);
+
+    expect(fcs.first.revise.value, true);
+    expect(fcs.first.revisionInterval.value, 0);
   });
 }
