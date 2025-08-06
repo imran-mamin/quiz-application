@@ -27,7 +27,7 @@ void main() {
     await tearDownTestHive();
   });
 
-/// Test Leitner algorithm.
+  /// Test Leitner algorithm.
   test('Collection "test" has one flashcard with revisionInterval set to 0 and the user answers incorrectly', () async {
     final List<QuestionAndAnswer> fcs = [
       QuestionAndAnswer(
@@ -207,5 +207,48 @@ void main() {
 
     expect(fcs.first.revise.value, true);
     expect(fcs.first.revisionInterval.value, 0);
+  });
+
+  /// Test SM-2 algorithm
+  test('Interval should be set to 1, if it is initially 0, repetition number is 0 and answer is incorrect', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 0,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5,
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalSM2(fcs.first, false);
+
+    expect(fcs.first.revisionInterval.value, 1);
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.repetitionNumber.value, 0);
+  });
+
+  test('Interval should be set to 1, if it is initially greater than 0, repetition number is not 0 and answer is incorrect', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 2,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 6,
+        easinessFactor: 2.5,
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalSM2(fcs.first, false);
+
+    expect(fcs.first.revisionInterval.value, 1);
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.repetitionNumber.value, 0);
   });
 }
