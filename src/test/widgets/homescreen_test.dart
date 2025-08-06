@@ -16,12 +16,13 @@ Future<void> initControllerAndHive() async {
 }
 
 void main() {
-  setUp(() async {
+  setUpAll(() async {
     await initControllerAndHive();
   });
 
-  tearDown(() async {
+  tearDownAll(() async {
     await Hive.close();
+    await tearDownTestHive();
   });
 
   testWidgets('AppBar has a text "Quiz Application"', (WidgetTester tester) async {
@@ -67,7 +68,7 @@ void main() {
     final titleText = find.descendant(of: listTile, matching: find.text(collectionName));
     expect(titleText, findsOne);
 
-    final subTitleText = find.descendant(of: listTile, matching: find.text("Size: ${emptyCollection.flashcards.length} flashcards"));
+    final subTitleText = find.descendant(of: listTile, matching: find.text("Size: ${emptyCollection.flashcards.length}"));
     expect(subTitleText, findsOne);
   
     // Remove collection from collectionController.

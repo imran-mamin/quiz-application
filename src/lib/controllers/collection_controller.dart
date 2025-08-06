@@ -23,6 +23,10 @@ class CollectionController {
     );
   }
 
+  Future<void> persist() async {
+    await _save();
+  }
+
   /**
    * Return true if a new collection is added and false if there already exists a collection
    * with the same name.
@@ -49,6 +53,14 @@ class CollectionController {
   Future<void> updateCollection(int index, Collection updatedCollection) async {
     collections[index] = updatedCollection;
     collections.refresh();
+    await _save();
+  }
+
+  void updateTimeStampsInFlashcards() async {
+    for (final c in collections) {
+      c.updateReviseLeitner();
+    }
+    
     await _save();
   }
 

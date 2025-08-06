@@ -8,10 +8,19 @@ import 'package:src/models/flashcard.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
 
-class QuestionAndAnswerScreen extends StatelessWidget {
+class QuestionAndAnswerScreen extends StatefulWidget {
+  const QuestionAndAnswerScreen({super.key});
+
+  @override
+  State<QuestionAndAnswerScreen> createState() => _QuestionAndAnswerScreenState();
+}
+
+class _QuestionAndAnswerScreenState extends State<QuestionAndAnswerScreen> {
   static final _formKey = GlobalKey<FormBuilderState>();
   final collectionController = Get.find<CollectionController>();
-  
+  // Says whether reversed card should be added.
+  RxBool checked = false.obs;
+
   void _submit() {
     if (_formKey.currentState!.saveAndValidate()) {
       final indexStr = Get.parameters['index'];
@@ -24,14 +33,36 @@ class QuestionAndAnswerScreen extends StatelessWidget {
       
       final data = _formKey.currentState!.value;
 
+      // When the flashcard is created the revision interval and grade should be 0, easiness factor 2.5.
       final qa = QuestionAndAnswer(
         question: data['question'],
         answer: data['answer'],
+        revisionInterval: 0,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 0,
+        easinessFactor: 2.5,
       );
 
       final collection = collectionController.collections[index];
       collection.flashcards.add(qa);
 
+      // If checkbox is checked, then add a reversed flashcard.
+      if (checked.value) {
+        final reversedQa = QuestionAndAnswer(
+          question: data['answer'],
+          answer: data['question'],
+          revisionInterval: 0,
+          revise: true,
+          lastRevisionDate: DateTime.timestamp(),
+          repetitionNumber: 0,
+          easinessFactor: 2.5,
+        );
+        
+        collection.flashcards.add(reversedQa);
+      }
+
+      // Store modifications in Hive.
       collectionController.updateCollection(index, collection);
 
       _formKey.currentState?.reset();
@@ -46,36 +77,48 @@ class QuestionAndAnswerScreen extends StatelessWidget {
       backgroundColor: Constants.canvasBackgroundColor,
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
+          constraints: const BoxConstraints(maxWidth: Constants.maxScreenWidth),
           child: FormBuilder(
             key: _formKey,
             child: Center(
               child: Padding(
-                padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center, // center vertically
                   crossAxisAlignment: CrossAxisAlignment.center, // center horizontally
                   children: [
                     Text("Question:", style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context))),
                     FormBuilderTextField(
-                        name: 'question',
-                        decoration: const InputDecoration(
-                          hintText: 'Question',
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.required(),
+                      name: 'question',
+                      decoration: const InputDecoration(
+                        hintText: 'Question',
+                        filled: true,
+                        fillColor: Colors.white,
                       ),
-                      SizedBox(height: 16),
-                      Text("Answer:", style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context))),
-                      FormBuilderTextField(
-                        name: 'answer',
-                        decoration: const InputDecoration(
-                          hintText: 'Answer',
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                        validator: FormBuilderValidators.required(),
+                      validator: FormBuilderValidators.required(),
+                    ),
+                    const SizedBox(height: 16),
+                    Text("Answer:", style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context))),
+                    FormBuilderTextField(
+                      name: 'answer',
+                      decoration: const InputDecoration(
+                        hintText: 'Answer',
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      validator: FormBuilderValidators.required(),
+                    ),
+                    const SizedBox(height: 8),
+                    Obx(() {
+                      return CheckboxListTile(
+                        title: const Text("Add reversed flashcard"),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: checked.value,
+                        onChanged: (bool? value) {
+                          checked.value = value ?? false;
+                        },
+                      );
+                      }
                     ),
                   ],
                 ),

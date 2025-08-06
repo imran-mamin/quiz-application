@@ -1,4 +1,3 @@
-import 'package:flash_card/flash_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,8 +6,10 @@ import 'package:src/models/flashcard.dart';
 import 'package:src/models/collection.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
+import 'package:src/third_party_code/flash_card.dart';
 
 class LearnScreen extends StatelessWidget {
+  LearnScreen({super.key});
   final collectionController = Get.find<CollectionController>();
   
   @override
@@ -31,40 +32,42 @@ class LearnScreen extends StatelessWidget {
     }
 
     final Collection currentCollection = collectionController.collections[index];
-    final List<QuestionAndAnswer> clonedFlashcards = currentCollection.shuffledFlashcards;
+    final List<QuestionAndAnswer> shuffledFlashcards = currentCollection.shuffledFlashcards();
 
     return Scaffold(
       appBar: DefaultAppBar(text: "Collection: ${currentCollection.name}"),
       backgroundColor: Constants.canvasBackgroundColor,
       body: Center(
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: Constants.maxScreenWidth),
+          constraints: const BoxConstraints(maxWidth: Constants.maxScreenWidth),
           child: PageView.builder(
-            itemCount: clonedFlashcards.length,
+            itemCount: currentCollection.flashcards.length,
             itemBuilder: (context, index) {
-              final QuestionAndAnswer qa = clonedFlashcards[index];
+              final QuestionAndAnswer qa = shuffledFlashcards[index];
 
               return Padding(padding: const EdgeInsets.all(16), child: Column(
                 children: [
                   LinearProgressIndicator(
-                    value: (index + 1) / currentCollection.shuffledFlashcards.length,
+                    value: (index + 1) / shuffledFlashcards.length,
                     backgroundColor: Colors.white24,
                     color: Colors.white,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
-                    "Flashcard ${index + 1} of ${currentCollection.shuffledFlashcards.length}",
+                    "Flashcard ${index + 1} of ${shuffledFlashcards.length}",
                     style: TextStyle(color: Constants.textColorOnCanvas, fontSize: setFontSize(context)),
                   ),
                   FlashCard(
                     width: MediaQuery.of(context).size.width * 0.85,
                     height: MediaQuery.of(context).size.height * 0.45,
                     frontWidget: Card(
+                      margin: EdgeInsets.zero,
+                      elevation: 0,
                       color: Colors.white,
                       child: Center(
                         child: SingleChildScrollView(
                           child: Text(
-                            qa.answer,
+                            qa.answer.value,
                             style: TextStyle(fontSize: setFontSize(context)),
                             textAlign: TextAlign.center,
                           ),
@@ -72,11 +75,13 @@ class LearnScreen extends StatelessWidget {
                       ),
                     ),
                     backWidget: Card(
+                      margin: EdgeInsets.zero,
                       color: Colors.white,
+                      elevation: 0,
                       child: Center(
                         child: SingleChildScrollView(
                           child: Text(
-                            qa.question,
+                            qa.question.value,
                             style: TextStyle(fontSize: setFontSize(context)),
                             textAlign: TextAlign.center,
                           ),
@@ -98,7 +103,7 @@ class LearnScreen extends StatelessWidget {
                 backgroundColor: Colors.white,
               ),
               onPressed: () => Get.back(),
-              child: Icon(Icons.home),
+              child: const Icon(Icons.home),
             ),
           ),
         ],

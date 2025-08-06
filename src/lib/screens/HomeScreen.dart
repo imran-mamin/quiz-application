@@ -39,22 +39,13 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _learn(Collection collection) {
-    // Randomize the order of flashcards.
-    collection.shuffleFlashcards();
-
     final index = collectionController.collections.indexOf(collection);
     Get.toNamed("/learn/$index");
   }
 
   void _quiz(Collection collection) {
-    // Randomize the order of flashcards.
-    collection.shuffleFlashcards();
-
     final int colIndex = collectionController.collections.indexOf(collection);
-    // Check whether the collection has flashcards.
-    final String qaIndex = collection.flashcards.isEmpty ? '' : '0';
-    const int correctAnswers = 0; // Current score.
-    Get.toNamed("/quiz/$colIndex/$qaIndex/$correctAnswers");
+    Get.toNamed("/quiz/$colIndex");
   }
 
   @override
@@ -79,17 +70,35 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.white,
                           child: ListTile(
                             title: Text("${collection.name}"),
-                            subtitle: Text("Size: ${collection.flashcards.length} flashcard${collection.flashcards.length == 1 ? '' : 's'}"),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Size: ${collection.flashcards.length}",
+                                  style: const TextStyle(color: Colors.blue),
+                                ),
+                                Text(
+                                  "Revise: ${collection.flashcards.where( (fc) => fc.revise == true ).length}",
+                                  style: const TextStyle(color: Colors.red),
+                                ),
+                              ],
+                            ),
                             trailing: Wrap(
-                              spacing: 8,
+                              spacing: 0,
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.school),
-                                  onPressed: collection.flashcards.length == 0 ? null : () => _quiz(collection),
+                                  // The IconButton is active only when there are some flashcards that should be revised.
+                                  onPressed: collection.flashcards.where( (fc) => fc.revise == true ).length == 0 ?
+                                    null :
+                                    () => _quiz(collection),
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.menu_book),
-                                  onPressed: collection.flashcards.length == 0 ? null : () => _learn(collection),
+                                  // The IconButton is active only when there are some flashcards in the collection.
+                                  onPressed: collection.flashcards.length == 0 ?
+                                    null :
+                                    () => _learn(collection),
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.edit),

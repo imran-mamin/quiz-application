@@ -20,8 +20,12 @@ class EditQuestionAndAnswerScreen extends StatelessWidget {
 
       final Collection collection = collectionController.collections[colIndex];
       final QuestionAndAnswer qa = collection.flashcards[qaIndex];
-      qa.question = data['question'];
-      qa.answer = data['answer'];
+      qa.question.value = data['question'];
+      qa.answer.value = data['answer'];
+
+      // When flashcard is modified the repetition interval should be again set to 0.
+      qa.revisionInterval.value = 0;
+      qa.revise.value = true;
 
       collectionController.updateCollection(colIndex, collection);
 

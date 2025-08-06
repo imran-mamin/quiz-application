@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 import 'package:src/constants/breakpoints.dart';
 import 'package:src/constants/theme.dart';
@@ -25,10 +25,14 @@ Future<void> initAppForMain() async {
 }
 
 late List<CameraDescription> cameras;
+
 Future<void> main() async {
   // Ensure that plugin services are initialized so that 'availableCameras()'
   // can be called before 'runApp()'.
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Hide bottom system navigation bar.
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   
   // Initialize Hive.
   await initAppForMain();
@@ -37,7 +41,11 @@ Future<void> main() async {
     // Obtain a list of the available cameras on the device.
     cameras = await availableCameras();
   }
-  
+
+  final CollectionController collectionController = Get.find<CollectionController>();
+  collectionController.updateTimeStampsInFlashcards();
+  Timer.periodic(const Duration(days: 1), (timer) => collectionController.updateTimeStampsInFlashcards());
+
   runApp(
     GetMaterialApp(
       initialRoute: "/",
@@ -47,9 +55,9 @@ Future<void> main() async {
         GetPage(name: "/editcollection/:index", page: () => EditCollectionScreen()),
         GetPage(name: "/editcollection/qa/:index", page: () => QuestionAndAnswerScreen()),
         GetPage(name: "/editcollection/qa/:colIndex/:qaIndex", page: () => EditQuestionAndAnswerScreen()),
-        GetPage(name: "/quiz/:colIndex/:qaIndex/:score", page: () => QuizScreen()),
+        GetPage(name: "/quiz/:colIndex", page: () => QuizScreen()),
         GetPage(name: "/learn/:index", page: () => LearnScreen()),
-        GetPage(name: "/quiz/results/:score/total/:total", page: () => ResultScreen()),
+        GetPage(name: "/results", page: () => const ResultScreen()),
       ],
     ),
   );
