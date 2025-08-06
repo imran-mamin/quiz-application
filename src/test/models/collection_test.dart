@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 import 'package:hive_test/hive_test.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'dart:math';
 
 import 'package:src/models/collection.dart';
 import 'package:src/controllers/collection_controller.dart';
@@ -250,5 +251,48 @@ void main() {
     expect(fcs.first.revisionInterval.value, 1);
     expect(fcs.first.revise.value, false);
     expect(fcs.first.repetitionNumber.value, 0);
+  });
+
+  test('Interval should be set to 6, if repetitionNumber is 1 and the answer is correct', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 2,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 1,
+        easinessFactor: 2.5,
+      ),
+    ];
+    
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalSM2(fcs.first, true);
+
+    expect(fcs.first.revisionInterval.value, 6);
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.repetitionNumber.value, 2);
+  });
+
+  test('When repetitionNumber is greater than 1 and the answer is correct then revision interval should be set to round(current revision interval * EF)', () async {
+    final List<QuestionAndAnswer> fcs = [
+      QuestionAndAnswer(
+        question: "question1",
+        answer: "answer1",
+        revisionInterval: 8,
+        revise: true,
+        lastRevisionDate: DateTime.timestamp(),
+        repetitionNumber: 2,
+        easinessFactor: 2.5,
+      ),
+    ];
+
+    final Collection testCollection = Collection('test', fcs);
+    await testCollection.updateRevisionIntervalSM2(fcs.first, true);
+
+    // roundup(8 (revisionInterval) * 2.5 (easinessFactor)).
+    expect(fcs.first.revisionInterval.value, (8 * 2.5).ceil());
+    expect(fcs.first.revise.value, false);
+    expect(fcs.first.repetitionNumber.value, 3);
   });
 }
