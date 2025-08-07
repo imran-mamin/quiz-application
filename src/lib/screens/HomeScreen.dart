@@ -69,7 +69,11 @@ class HomeScreen extends StatelessWidget {
                         children: collectionController.collections.map( (collection) => Card(
                           color: Colors.white,
                           child: ListTile(
-                            title: Text("${collection.name}"),
+                            title: Text(
+                              "${collection.name}",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
