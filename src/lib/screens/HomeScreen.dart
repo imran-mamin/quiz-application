@@ -6,8 +6,16 @@ import 'package:src/controllers/collection_controller.dart';
 import 'package:src/constants/theme.dart';
 import 'package:src/main.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  RxString searchText = "".obs;
+
   final collectionController = Get.find<CollectionController>();
 
   void _deleteCollection(BuildContext context, Collection collection) {
@@ -60,6 +68,21 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.only(top: 24.0, left: 16.0, right: 16.0),
             child: ListView(
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: SearchBar(
+                    leading: const Icon(Icons.search),
+                    hintText: 'Search',
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
+                    padding: WidgetStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 12.0),
+                    ),
+                    onChanged: (value) {
+                      print("Search text ${value}");
+                      searchText.value = value;
+                    },
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Obx(
