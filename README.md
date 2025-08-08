@@ -13,11 +13,3 @@ Currently, before doing anything else, the user should see amount of flashcards 
 
 When going back to Home screen, "Learn" and "Quiz" buttons should now be clickable. When pressing "Learn" button the user should see one of the flashcards. If clicking on the flashcard, the answer is shown. For learning purposes, flashcards are randomized in both "Learn" and "Quiz" screens.
 If clicking the "Quiz" button instead, the user is navigated to the screen, where she/he can test her/his knowledge. The screen shows two buttons "thumb-down" and "thumb-up". The next question is shown only after clicking one of those buttons. At the end of the quiz the amount of correct answers is shown.
-
-
-## 🔧 In Development
-
-- **Text recognition from images** (branch: `read-text-from-image-functionality`)
-  - Use a photo of a schoolbook to auto-generate flashcards.
-- **Camera integration** (branch: `camera`)
-  - Take pictures directly in the app instead of uploading via File Explorer.
