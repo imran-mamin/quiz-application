@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:hive_test/hive_test.dart';
 import 'package:get/get.dart';
 
-import 'package:src/screens/CollectionScreen.dart';
+import 'package:src/screens/collection_screen.dart';
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/main.dart';
 

@@ -3,7 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:src/screens/DisplayPictureScreen.dart';
+import 'package:src/screens/display_picture_screen.dart';
 import 'package:src/main.dart';
 
 // A screen that allows users to take a picture using a given camera.

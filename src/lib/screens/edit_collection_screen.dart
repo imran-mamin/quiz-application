@@ -7,7 +7,7 @@ import 'package:src/models/flashcard.dart';
 import 'package:src/controllers/collection_controller.dart';
 import 'package:src/main.dart';
 import 'package:src/constants/theme.dart';
-import 'package:src/screens/TakePictureScreen.dart';
+import 'package:src/screens/take_picture_screen.dart';
 
 class EditCollectionScreen extends StatelessWidget {
   EditCollectionScreen({super.key});
